@@ -1,0 +1,7 @@
+{
+  "name": "volunteeringsystem_cloudcomputing",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
