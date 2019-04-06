@@ -33,6 +33,7 @@ export class MapPage implements OnInit {
   }
 
   ionViewDidLoad(){
+    
   }
 
   initMap() {
