@@ -49,6 +49,7 @@ export class MapPage implements OnInit {
       this.loading.dismiss();
       this.lat = pos.coords.latitude;
       this.lng = pos.coords.longitude;
+      // Uncomment this to load map.
       // this.initMap();
     })
   }
