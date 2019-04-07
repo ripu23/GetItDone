@@ -1,7 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="arrow-round-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
 
-<ion-content>
-    <ion-fab vertical="top" horizontal="start" slot="fixed">
-        <ion-fab-button color="light" size="small" activated="true" (click)="closeModal()">
-        </ion-fab-button>
-      </ion-fab>
+
+  <form #form="ngForm" (ngSubmit)="findVolunteers()" novalidate>
+    <ion-item>
+      <ion-input type="text" required placeholder="From Address" [(ngModel)]="request.fromAddress" name="fromAddress">
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" required placeholder="To Address" [(ngModel)]="request.toAddress" name="toAddress">
+      </ion-input>
+    </ion-item>
+    <ion-item>
+        <ion-input type="text" required placeholder="Phone" [(ngModel)]="request.phone" name="phone">
+        </ion-input>
+      </ion-item>
+    <ion-item>
+      <ion-input type="text" required placeholder="Zip" [(ngModel)]="request.zip" name="zip"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" required placeholder="City" [(ngModel)]="request.city" name="city"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" required placeholder="Payable rate" [(ngModel)]="request.rate" name="rate"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-textarea type="text" required placeholder="Description" [(ngModel)]="request.description" name="description">
+      </ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label>Negotiable?</ion-label>
+      <ion-checkbox color="primary" [(ngModel)]="request.negotiable" name="negotiable"></ion-checkbox>
+    </ion-item>
+
+    <div padding>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+                <div class="ion-text-center">
+                    <ion-button type="submit" color="success">Submit</ion-button>
+                </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+  </form>
+  
+
 </ion-content>

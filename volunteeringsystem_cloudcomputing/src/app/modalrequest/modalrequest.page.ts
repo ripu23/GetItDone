@@ -11,12 +11,21 @@ export class ModalrequestPage implements OnInit {
   constructor(private navParams: NavParams,
               private modalController: ModalController) { }
 
+
+  public request = {
+    negotiable: true
+  };
+  
   ngOnInit() {
     console.log(this.navParams.get('id'));
   }
 
   closeModal() {
     this.modalController.dismiss();
+  }
+
+  findVolunteers() {
+    console.log(this.request);
   }
 
 }
