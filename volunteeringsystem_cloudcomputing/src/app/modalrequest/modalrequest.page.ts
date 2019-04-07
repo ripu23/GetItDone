@@ -15,7 +15,9 @@ export class ModalrequestPage implements OnInit {
   public request = {
     negotiable: true
   };
+
   
+
   ngOnInit() {
     console.log(this.navParams.get('id'));
   }

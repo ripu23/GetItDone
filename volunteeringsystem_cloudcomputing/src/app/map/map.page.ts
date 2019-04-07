@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NavController, ModalController } from '@ionic/angular';
+import { NavController, ModalController, LoadingController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import '../../assets/geolocation-marker.js';
 import { ModalrequestPage } from '../modalrequest/modalrequest.page';
@@ -16,22 +16,26 @@ export class MapPage implements OnInit {
 
   @ViewChild('map')
   public mapElement: ElementRef;
+  public map: any;
 
   private lat: any;
   private lng: any;
-  public map: any;
+  private loading: any;
 
   constructor(public navCtrl: NavController, 
               public geolocation: Geolocation,
-              public modalController: ModalController) { }
+              public modalController: ModalController,
+              private loadingController: LoadingController) { }
 
   ngOnInit() {
     console.log('loaded')
-    this.geolocation.getCurrentPosition().then( pos => {
-      console.log(pos);
-      this.lat = pos.coords.latitude;
-      this.lng = pos.coords.longitude;
-      // this.initMap();
+
+    this.loadingController.create({
+      message: 'Setting satellites in position..'
+    }).then( overlay => {
+      this.loading = overlay;
+      this.loading.present();
+      this.getLocation();
     })
   }
 
@@ -39,6 +43,15 @@ export class MapPage implements OnInit {
     
   }
 
+  getLocation() {
+    this.geolocation.getCurrentPosition().then( pos => {
+      console.log(pos);
+      this.loading.dismiss();
+      this.lat = pos.coords.latitude;
+      this.lng = pos.coords.longitude;
+      // this.initMap();
+    })
+  }
   initMap() {
     let coords = new google.maps.LatLng(this.lat, this.lng);
     let mapoptions = google.maps.MapOptions = {
