@@ -3,12 +3,11 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class VolunteerServiceService {
-
-
-  private baseUrl: string = '/api/';
+export class VolunteerService {
 
   constructor() { }
+
+  private baseUrl: string = '/api/';
 
   
 }
