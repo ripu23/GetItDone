@@ -31,7 +31,7 @@ export class MapPage implements OnInit {
       console.log(pos);
       this.lat = pos.coords.latitude;
       this.lng = pos.coords.longitude;
-      this.initMap();
+      // this.initMap();
     })
   }
 
@@ -55,7 +55,7 @@ export class MapPage implements OnInit {
     const modal = await this.modalController.create({
       component: ModalrequestPage,
       componentProps: {
-
+        id: 1
       }
     });
     modal.present();
