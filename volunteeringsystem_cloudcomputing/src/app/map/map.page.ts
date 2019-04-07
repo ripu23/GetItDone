@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, ModalController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import '../../assets/geolocation-marker.js';
+import { ModalrequestPage } from '../modalrequest/modalrequest.page';
 
 declare var google;
 declare var GeolocationMarker;
@@ -20,7 +21,9 @@ export class MapPage implements OnInit {
   private lng: any;
   public map: any;
 
-  constructor(public navCtrl: NavController, public geolocation: Geolocation) { }
+  constructor(public navCtrl: NavController, 
+              public geolocation: Geolocation,
+              public modalController: ModalController) { }
 
   ngOnInit() {
     console.log('loaded')
@@ -46,5 +49,15 @@ export class MapPage implements OnInit {
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapoptions);
     let geoMarker = new GeolocationMarker(this.map);
+  }
+
+  async openRequestForm() {
+    const modal = await this.modalController.create({
+      component: ModalrequestPage,
+      componentProps: {
+
+      }
+    });
+    modal.present();
   }
 }
