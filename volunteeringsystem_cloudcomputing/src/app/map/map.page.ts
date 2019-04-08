@@ -3,6 +3,7 @@ import { NavController, ModalController, LoadingController } from '@ionic/angula
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import '../../assets/geolocation-marker.js';
 import { ModalrequestPage } from '../modalrequest/modalrequest.page';
+import { User } from '../Models/user.js';
 
 declare var google;
 declare var GeolocationMarker;
@@ -21,6 +22,7 @@ export class MapPage implements OnInit {
   private lat: any;
   private lng: any;
   private loading: any;
+  private users: User[];
 
   constructor(public navCtrl: NavController, 
               public geolocation: Geolocation,
@@ -28,8 +30,6 @@ export class MapPage implements OnInit {
               private loadingController: LoadingController) { }
 
   ngOnInit() {
-    console.log('loaded')
-
     this.loadingController.create({
       message: 'Setting satellites in position..'
     }).then( overlay => {
@@ -45,7 +45,6 @@ export class MapPage implements OnInit {
 
   getLocation() {
     this.geolocation.getCurrentPosition().then( pos => {
-      console.log(pos);
       this.loading.dismiss();
       this.lat = pos.coords.latitude;
       this.lng = pos.coords.longitude;
@@ -72,6 +71,14 @@ export class MapPage implements OnInit {
         id: 1
       }
     });
-    modal.present();
+    modal.onDidDismiss().then( response => {
+      console.log(response);
+      if(response['data']){
+
+      }else{
+
+      }
+    })
+    return await modal.present();
   }
 }

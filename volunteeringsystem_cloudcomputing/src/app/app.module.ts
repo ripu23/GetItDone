@@ -9,11 +9,16 @@ import { Geolocation } from '@ionic-native/geolocation/ngx'
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ModalrequestPageModule } from './modalrequest/modalrequest.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ModalrequestPageModule],
+  imports: [BrowserModule, 
+            IonicModule.forRoot(),
+            AppRoutingModule,
+            ModalrequestPageModule,
+            HttpClientModule],
   providers: [
     StatusBar,
     SplashScreen,

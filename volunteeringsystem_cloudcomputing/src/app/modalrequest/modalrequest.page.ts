@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NavParams, ModalController } from '@ionic/angular';
+import { NavParams, ModalController, AlertController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Request } from '../Models/request';
 import { VolunteerService } from '../services/volunteer.service';
+import { Constants } from '../Models/constants';
 
 
 @Component({
@@ -15,7 +16,8 @@ export class ModalrequestPage implements OnInit {
   constructor(private navParams: NavParams,
               private modalController: ModalController,
               private geolocation: Geolocation,
-              private volunteerService: VolunteerService) { }
+              private volunteerService: VolunteerService,
+              private alertController: AlertController) { }
 
 
   private lat: any;
@@ -53,15 +55,38 @@ export class ModalrequestPage implements OnInit {
     reqObj.phone = this.request.phone;
     reqObj.rate = this.request.rate;
     reqObj.zip = this.request.zip;
+    
+    this.createAlert([1, 2]);
+    // this.volunteerService.findVolunteers(reqObj).subscribe( response => {
+    //   console.log(response);
+    //   if(response.length == 0){
+    //     this.createAlert(response);
+    //   }else{
 
-    this.volunteerService.findVolunteers(reqObj).subscribe( response => {
-      console.log(response);
-      if(response.length == 0){
-        
-      }else{
+    //   }
+    // })
+  }
 
-      }
+  async createAlert(response: any){
+    let length = response.length;
+    const alert = await this.alertController.create({
+      header: 'Success',
+      message: length == 0 ? Constants.SUCCESS_LENGTH_0 : `${Constants.SUCCESS} ${length} volunteers!`,
+      animated: true,
+      buttons: [{
+        text: 'Okay',
+        cssClass: 'secondary',
+        handler: () => {
+          if(length > 0){
+            this.modalController.dismiss(response);
+          }else{
+            this.modalController.dismiss();
+          }
+          
+        }
+      }]
     })
+    await alert.present();
   }
 
 }
