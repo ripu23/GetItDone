@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { NavParams, ModalController, AlertController } from '@ionic/angular';
+import { NavParams, ModalController, AlertController, LoadingController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Request } from '../Models/request';
 import { VolunteerService } from '../services/volunteer.service';
 import { Constants } from '../Models/constants';
+import { RequestService } from '../services/request.service';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -17,13 +19,16 @@ export class ModalrequestPage implements OnInit {
               private modalController: ModalController,
               private geolocation: Geolocation,
               private volunteerService: VolunteerService,
-              private alertController: AlertController) { }
+              private alertController: AlertController,
+              private requestService: RequestService,
+              private loadingController: LoadingController) { }
 
 
   private lat: any;
   private lng: any;
+  private loading: any;
 
-  public request:any = {};
+  request: Request;
   
 
   ngOnInit() {
@@ -39,24 +44,27 @@ export class ModalrequestPage implements OnInit {
     this.modalController.dismiss();
   }
 
-  findVolunteers() {
+  saveRequest(requestForm: NgForm) {
+    console.log(requestForm.value);
+    requestForm.value.createdAt = new Date().getTime();
+    requestForm.value.lat = this.lat;
+    requestForm.value.lng = this.lng;
+    this.loadingController.create({
+      message: 'Saving Request'
+    }).then( overlay => {
+      this.loading = overlay;
+      this.loading.present();
+    })
 
-    this.request.lat = this.lat;
-    this.request.lng = this.lng;
-    console.log(this.request);
+    this.requestService.addRequest(requestForm.value).then( savedRequest => {
+      console.log(savedRequest);
+      this.loading.dismiss();
+      this.findVolunteers();
+    });
+   
+  }
 
-    let reqObj: Request = new Request();
-    reqObj.city = this.request.city;
-    reqObj.description = this.request.description;
-    reqObj.fromAddress = this.request.fromAddress;
-    reqObj.toAddress = this.request.toAddress;
-    reqObj.lat = this.request.lat;
-    reqObj.lng = this.request.lng;
-    reqObj.phone = this.request.phone;
-    reqObj.rate = this.request.rate;
-    reqObj.zip = this.request.zip;
-    
-    this.createAlert([1, 2]);
+  findVolunteers(){
     // this.volunteerService.findVolunteers(reqObj).subscribe( response => {
     //   console.log(response);
     //   if(response.length == 0){

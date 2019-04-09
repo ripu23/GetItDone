@@ -4,6 +4,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import '../../assets/geolocation-marker.js';
 import { ModalrequestPage } from '../modalrequest/modalrequest.page';
 import { User } from '../Models/user.js';
+import { RequestService } from '../services/request.service.js';
 
 declare var google;
 declare var GeolocationMarker;
@@ -24,9 +25,9 @@ export class MapPage implements OnInit {
   private loading: any;
   private users: User[];
 
-  constructor(public navCtrl: NavController, 
-              public geolocation: Geolocation,
-              public modalController: ModalController,
+  constructor(private navCtrl: NavController, 
+              private geolocation: Geolocation,
+              private modalController: ModalController,
               private loadingController: LoadingController) { }
 
   ngOnInit() {
@@ -71,14 +72,16 @@ export class MapPage implements OnInit {
         id: 1
       }
     });
-    modal.onDidDismiss().then( response => {
-      console.log(response);
-      if(response['data']){
+
+    modal.onDidDismiss().then( newRequest => {
+      console.log(newRequest);
+      if(newRequest['data']){
 
       }else{
 
       }
     })
+
     return await modal.present();
   }
 }

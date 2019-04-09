@@ -1,4 +1,5 @@
-export class Request {
+export interface Request {
+    id?: string;
     toAddress: string;
     fromAddress: string;
     description: string;
@@ -9,4 +10,7 @@ export class Request {
     negotiable: boolean;
     lat: string;
     lng: string;
+    raisedBy: string;
+    userId: string;
+    createdAt: number;
 }

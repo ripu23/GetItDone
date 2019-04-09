@@ -10,6 +10,9 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ModalrequestPageModule } from './modalrequest/modalrequest.module';
 import { HttpClientModule } from '@angular/common/http';
+import { AngularFireModule } from 'angularfire2';
+import { environment } from '../environments/environment';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,7 +21,9 @@ import { HttpClientModule } from '@angular/common/http';
             IonicModule.forRoot(),
             AppRoutingModule,
             ModalrequestPageModule,
-            HttpClientModule],
+            HttpClientModule,
+            AngularFireModule.initializeApp(environment.firebase),
+            AngularFirestoreModule],
   providers: [
     StatusBar,
     SplashScreen,

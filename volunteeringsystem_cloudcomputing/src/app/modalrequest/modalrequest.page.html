@@ -10,35 +10,35 @@
 <ion-content padding>
 
 
-  <form #form="ngForm" (ngSubmit)="findVolunteers()" novalidate>
+  <form #requestForm="ngForm" (ngSubmit)="saveRequest(requestForm)" novalidate>
     <ion-item>
-      <ion-input type="text" required placeholder="From Address" [(ngModel)]="request.fromAddress" name="fromAddress">
+      <ion-input type="text" required placeholder="From Address" name="fromAddress" ngModel>
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="text" required placeholder="To Address" [(ngModel)]="request.toAddress" name="toAddress">
+      <ion-input type="text" required placeholder="To Address" name="toAddress" ngModel>
       </ion-input>
     </ion-item>
     <ion-item>
-        <ion-input type="text" required placeholder="Phone" [(ngModel)]="request.phone" name="phone">
+        <ion-input type="text" required placeholder="Phone" name="phone" ngModel>
         </ion-input>
       </ion-item>
     <ion-item>
-      <ion-input type="text" required placeholder="Zip" [(ngModel)]="request.zip" name="zip"></ion-input>
+      <ion-input type="text" required placeholder="Zip"  name="zip" ngModel></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="text" required placeholder="City" [(ngModel)]="request.city" name="city"></ion-input>
+      <ion-input type="text" required placeholder="City" name="city" ngModel></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="text" required placeholder="Payable rate" [(ngModel)]="request.rate" name="rate"></ion-input>
+      <ion-input type="text" required placeholder="Payable rate" name="rate" ngModel></ion-input>
     </ion-item>
     <ion-item>
-      <ion-textarea type="text" required placeholder="Description" [(ngModel)]="request.description" name="description">
+      <ion-textarea type="text" required placeholder="Description" name="description" ngModel>
       </ion-textarea>
     </ion-item>
     <ion-item>
       <ion-label>Negotiable?</ion-label>
-      <ion-checkbox color="primary" [(ngModel)]="request.negotiable" name="negotiable"></ion-checkbox>
+      <ion-checkbox color="primary" name="negotiable" ngModel></ion-checkbox>
     </ion-item>
 
     <div padding>

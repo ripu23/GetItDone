@@ -12,12 +12,10 @@ export class VolunteerService {
 
   constructor(private http: HttpClient) { }
 
-  private baseUrl: string = '/api/';
-
-  findVolunteers(request: Request): Observable<any> {
-    let params: HttpParams = new HttpParams();
-    return this.http.get<User[]>(this.baseUrl + 'findVolunteers', {
-      params: params
-    });
-  }
+  // findVolunteers(request: Request): Observable<any> {
+  //   let params: HttpParams = new HttpParams();
+  //   return this.http.get<User[]>(this.baseUrl + 'findVolunteers', {
+  //     params: params
+  //   });
+  // }
 }
