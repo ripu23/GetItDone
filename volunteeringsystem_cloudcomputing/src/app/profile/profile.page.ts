@@ -20,6 +20,7 @@ export class ProfilePage implements OnInit {
 
   
   ngOnInit() {
+    this.router.navigate(['/profile/account']);
   }
 
 }
