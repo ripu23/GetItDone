@@ -20,7 +20,6 @@ export class HistoryPage implements OnInit {
     let data = this.db.collection('requests', ref => ref.where('fromAddress', '==', 'rteja@asu.edu')).valueChanges().pipe(
       map(res => {
         return res.map( a => {
-          console.log(a);
           if(a['createdAt']){
             a['createdAt'] = new Date(a['createdAt']).toLocaleString();
           }
