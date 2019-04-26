@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Ionic Blank
+      GET IT DONE!
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -12,5 +12,5 @@
   <h1 *ngIf="afAuth.auth.currentUser">
     Welcome {{afAuth.auth.currentUser.displayName}}
   </h1>
-  <button (click)="logout()">Logout</button>
+  <button *ngIf="afAuth.auth.currentUser" (click)="logout()">Logout</button>
 </ion-content>
