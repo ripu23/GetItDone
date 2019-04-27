@@ -15,6 +15,7 @@ import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import {FirebaseUIModule, firebase, firebaseui} from 'firebaseui-angular';
 import {AngularFireAuthModule} from '@angular/fire/auth';
+import { ModalsignupPageModule } from './modalsignup/modalsignup.module';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -45,6 +46,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
             IonicModule.forRoot(),
             AppRoutingModule,
             ModalrequestPageModule,
+            ModalsignupPageModule,
             HttpClientModule,
             AngularFireModule.initializeApp(environment.firebase),
             AngularFirestoreModule,

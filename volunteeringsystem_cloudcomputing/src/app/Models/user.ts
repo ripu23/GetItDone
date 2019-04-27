@@ -1,4 +1,5 @@
 export class User {
+    userId?: string;
     firstName: string;
     lastName: string;
     latestLat: string;
@@ -6,4 +7,5 @@ export class User {
     email: string;
     phone: string;
     address: string;
+    zip?: string;
 }

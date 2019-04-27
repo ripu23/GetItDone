@@ -18,7 +18,6 @@ export class ModalrequestPage implements OnInit {
   constructor(private navParams: NavParams,
               private modalController: ModalController,
               private geolocation: Geolocation,
-              private volunteerService: VolunteerService,
               private alertController: AlertController,
               private requestService: RequestService,
               private loadingController: LoadingController) { }
@@ -51,7 +50,7 @@ export class ModalrequestPage implements OnInit {
     requestForm.value.lng = this.lng;
     this.loadingController.create({
       message: 'Saving Request'
-    }).then( overlay => {
+    }).then(overlay => {
       this.loading = overlay;
       this.loading.present();
     })
