@@ -9,11 +9,25 @@ import { AngularFireAuth } from '@angular/fire/auth';
 })
 export class HomePage {
 
+  public userOrVolunteer: boolean = false;
   constructor(public afAuth: AngularFireAuth) {
 
   }
   ngOnInit(): void {
     this.afAuth.authState.subscribe(d => console.log(d));
+    
+  }
+
+  volunteer(): void {
+    this.userOrVolunteer = true;
+  }
+
+  user(): void {
+    this.userOrVolunteer = true;
+  }
+  
+  goBack(): void {
+    this.userOrVolunteer = false;
   }
 
   logout() {
