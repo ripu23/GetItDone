@@ -4,11 +4,11 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import '../../assets/geolocation-marker.js';
 import { ModalrequestPage } from '../modalrequest/modalrequest.page';
 import { User } from '../Models/user.js';
-import { RequestService } from '../services/request.service.js';
-import { AngularFireDatabase } from 'angularfire2/database';
 import { BehaviorSubject } from 'rxjs';
 import { GeoService } from '../services/geo.service.js';
 import { VolunteerService } from '../services/volunteer.service.js';
+import { Constants } from '../Models/constants.js';
+import { HelperService } from '../services/helper.service.js';
 
 declare var google;
 declare var GeolocationMarker;
@@ -24,7 +24,6 @@ export class MapPage implements OnInit, OnDestroy {
   @ViewChild('map')
   public mapElement: ElementRef;
   public map: any;
-  public hits = new BehaviorSubject([]);
 
   //private variables here
   private lat: any;
@@ -35,33 +34,38 @@ export class MapPage implements OnInit, OnDestroy {
   private subscription1: any;
   private subscription2: any;
   private volunteers: any;
+  private markers: any[];
 
 
 
-  
+
 
   constructor(private navCtrl: NavController,
-              private geoService: GeoService,
-              private volunteerService: VolunteerService,
-              private geolocation: Geolocation,
-              private modalController: ModalController,
-              private loadingController: LoadingController) { 
+    private geoService: GeoService,
+    private volunteerService: VolunteerService,
+    private geolocation: Geolocation,
+    private modalController: ModalController,
+    private loadingController: LoadingController,
+    private helperService: HelperService) {
 
-    this.subscription1 = this.geoService.volunteersLocation.subscribe(volunteers => {
+    this.subscription1 = this.geoService.volunteersLocation.subscribe(
+      volunteers => {
       this.volunteersLocation = volunteers
-      console.log(this.volunteersLocation);
+      console.log('Volunteer Location', this.volunteersLocation);
+      this.addVolunteersToMap();
     });
 
     this.subscription2 = this.geoService.volunteers.subscribe(ele => {
       this.volunteers = ele;
       console.log('Volunteers', this.volunteers)
     });
+    this.markers = [];
   }
 
   ngOnInit() {
     this.loadingController.create({
       message: 'Setting satellites in position..'
-    }).then( overlay => {
+    }).then(overlay => {
       this.loading = overlay;
       this.loading.present();
       this.getLocation();
@@ -73,19 +77,19 @@ export class MapPage implements OnInit, OnDestroy {
     this.subscription2.unsubscribe();
   }
 
-  ionViewDidLoad(){
-    
+  ionViewDidLoad() {
+
   }
 
 
   getLocation() {
-    this.geolocation.getCurrentPosition().then( pos => {
+    this.geolocation.getCurrentPosition().then(pos => {
       this.loading.dismiss();
       this.lat = pos.coords.latitude;
       this.lng = pos.coords.longitude;
       // Uncomment this to load map.
-      // this.initMap();
-      this.geoService.getVolunteersLocation(10, [this.lat, this.lng]);
+      this.initMap();
+      this.geoService.getVolunteersLocation(100, [this.lat, this.lng]);
     })
   }
 
@@ -101,6 +105,30 @@ export class MapPage implements OnInit, OnDestroy {
     let geoMarker = new GeolocationMarker(this.map);
   }
 
+  addVolunteersToMap() {
+    this.volunteersLocation.forEach(element => {
+      this.addMarker(element.location, element.key);
+    });
+  }
+
+  addMarker(location: any, id: string) {
+    let coords = new google.maps.LatLng(location[0], location[1]);
+    let marker = new google.maps.Marker({
+      position: coords,
+      map: this.map,
+      icon: Constants.MARKER_IMAGE
+    });
+
+    this.markers.push({
+      id: id,
+      marker: marker
+    });
+  }
+
+  deleteMarkers(id: string) {
+    this.markers = this.helperService.deleteMarkers(this.markers, id);
+  }
+
   async openRequestForm() {
     const modal = await this.modalController.create({
       component: ModalrequestPage,
@@ -109,11 +137,11 @@ export class MapPage implements OnInit, OnDestroy {
       }
     });
 
-    modal.onDidDismiss().then( newRequest => {
+    modal.onDidDismiss().then(newRequest => {
       console.log(newRequest);
-      if(newRequest['data']){
+      if (newRequest['data']) {
 
-      }else{
+      } else {
 
       }
     })

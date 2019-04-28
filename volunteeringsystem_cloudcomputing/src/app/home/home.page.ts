@@ -7,6 +7,7 @@ import { VolunteerService } from '../services/volunteer.service';
 import { User } from '../Models/user';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalsignupPage } from '../modalsignup/modalsignup.page';
+import { ShareService } from '../services/share.service';
 
 @Component({
   selector: 'app-home',
@@ -23,6 +24,7 @@ export class HomePage {
               private geolocation: Geolocation,
               private activatedRoute: ActivatedRoute,
               private router: Router,
+              private shareService: ShareService,
               private modalController: ModalController,
               private alertController: AlertController,) {
 
@@ -30,7 +32,12 @@ export class HomePage {
 
   ngOnInit(): void {
     this.preHomeId = this.activatedRoute.snapshot.paramMap.get('id');
-    this.afAuth.authState.subscribe(d => console.log(d));
+    this.afAuth.authState.subscribe(d => {
+      console.log(d);
+      if(this.shareService.userId === ""){
+        this.shareService.userId = d.uid;
+      }
+    });
     this.geolocation.getCurrentPosition().then(pos => {
       this.lat = pos.coords.latitude;
       this.lng = pos.coords.longitude;
@@ -45,6 +52,9 @@ export class HomePage {
 
   successCallback(signInSuccessData: FirebaseUISignInSuccessWithAuthResult) {
     console.log(signInSuccessData);
+    if(this.shareService.userId && this.shareService.userId === ""){
+      this.shareService.userId = signInSuccessData.authResult.user.uid;
+    }
     if(signInSuccessData.authResult.additionalUserInfo && signInSuccessData.authResult.additionalUserInfo.isNewUser){
         this.createNewUser(signInSuccessData);
     }else {

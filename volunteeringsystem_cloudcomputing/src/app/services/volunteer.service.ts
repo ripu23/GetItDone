@@ -39,6 +39,9 @@ export class VolunteerService {
   }
   
   getVolunteers(id: string) {
+    // Ideally, snapshotChanges() should be used to get id also
+    // but, unable to retrieve data. Hence, using valueChanges()
+    // and appending id later.
     return this.volunteerCollection.doc(id).valueChanges();
   }
 }
