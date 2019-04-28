@@ -3,6 +3,7 @@ import { NavParams, ModalController, LoadingController } from '@ionic/angular';
 import { NgForm } from '@angular/forms';
 import { VolunteerService } from '../services/volunteer.service';
 import { UserService } from '../services/user.service';
+import { GeoService } from '../services/geo.service';
 
 @Component({
   selector: 'app-modalsignup',
@@ -22,6 +23,7 @@ export class ModalsignupPage implements OnInit {
 
   constructor(private navParams: NavParams,
               private volunteerService: VolunteerService,
+              private geoService: GeoService,
               private modalController: ModalController,
               private userService: UserService,
               private loadingController: LoadingController) { }
@@ -40,8 +42,10 @@ export class ModalsignupPage implements OnInit {
     if(this.signInSuccessData.authResult.user && this.signInSuccessData.authResult.user.email){
       form.value.email = this.signInSuccessData.authResult.user.email;
     }
-    form.value.latestLat = this.lat;
-    form.value.latestLng = this.lng;
+    if(this.preHomeId !== 'user'){
+      form.value.latestLat = this.lat;
+      form.value.latestLng = this.lng;
+    }
     form.value.userId = this.signInSuccessData.authResult.user.uid;
 
     this.loadingController.create({
@@ -61,8 +65,13 @@ export class ModalsignupPage implements OnInit {
     }else {
       this.volunteerService.createVoluteer(form.value).then(volunteer => {
         console.log(volunteer);
+        this.geoService.addVolunteer(this.signInSuccessData.authResult.user.uid, [this.lat, this.lng]).then(data =>{
+          console.log(data);
+        });
         this.loading.dismiss();
         this.modalController.dismiss('done');
+        
+        
       });
     }
     

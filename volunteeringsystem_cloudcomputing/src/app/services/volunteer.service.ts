@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { User } from '../Models/user';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -35,6 +36,9 @@ export class VolunteerService {
       latestLng: volunteer.latestLng,
       latestLat: volunteer.latestLat
     });
-  } 
-
+  }
+  
+  getVolunteers(id: string) {
+    return this.volunteerCollection.doc(id).valueChanges();
+  }
 }
