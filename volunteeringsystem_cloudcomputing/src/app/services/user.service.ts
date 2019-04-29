@@ -26,4 +26,9 @@ export class UserService {
       latestLat: user.latestLat
     });
   } 
+   async getUser(userId) {
+    var user = await this.userCollection.doc(userId).ref.get().then((snapShot) => {return snapShot.data();});
+    return user;
+    
+  } 
 }
