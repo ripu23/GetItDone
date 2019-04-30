@@ -32,9 +32,7 @@ export class VolunteerService {
       address: volunteer.address,
       zip: volunteer.zip,
       email: volunteer.email,
-      phone: volunteer.phone,
-      latestLng: volunteer.latestLng,
-      latestLat: volunteer.latestLat
+      phone: volunteer.phone
     });
   }
   

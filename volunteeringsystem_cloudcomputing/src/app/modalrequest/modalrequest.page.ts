@@ -20,7 +20,13 @@ export class ModalrequestPage implements OnInit {
               private geolocation: Geolocation,
               private alertController: AlertController,
               private requestService: RequestService,
-              private loadingController: LoadingController) { }
+              private loadingController: LoadingController) {
+
+    this.geolocation.getCurrentPosition().then( pos => {
+      this.lat = pos.coords.latitude;
+      this.lng = pos.coords.longitude;
+    })
+}
 
 
   private lat: any;
@@ -31,12 +37,8 @@ export class ModalrequestPage implements OnInit {
   
 
   ngOnInit() {
-    console.log(this.navParams.get('id'));
-
-    this.geolocation.getCurrentPosition().then( pos => {
-      this.lat = pos.coords.latitude;
-      this.lng = pos.coords.longitude;
-    })
+    this.lat = this.navParams.get('lat');
+    this.lng = this.navParams.get('lng');
   }
 
   closeModal() {

@@ -8,6 +8,8 @@ import { User } from '../Models/user';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalsignupPage } from '../modalsignup/modalsignup.page';
 import { ShareService } from '../services/share.service';
+import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -26,18 +28,29 @@ export class HomePage {
               private router: Router,
               private shareService: ShareService,
               private modalController: ModalController,
-              private alertController: AlertController,) {
+              private alertController: AlertController,
+              private auth: AuthService,
+              private userService: UserService) {
 
   }
 
   ngOnInit(): void {
     this.preHomeId = this.activatedRoute.snapshot.paramMap.get('id');
+    
     this.afAuth.authState.subscribe(d => {
       console.log(d);
-      if(this.shareService.userId === ""){
-        this.shareService.userId = d.uid;
+      if(d !== null){
+        if(!this.auth.isLoggedIn) {
+          this.auth.setLoggedId(true);
+          this.auth.setUserId(d.uid);
+          this.userService.getUser(d.uid).then(user => {
+            this.auth.setUserDetails(user);
+          });
+        }
       }
+      this.navigateUser();
     });
+
     this.geolocation.getCurrentPosition().then(pos => {
       this.lat = pos.coords.latitude;
       this.lng = pos.coords.longitude;
@@ -45,22 +58,32 @@ export class HomePage {
   }
 
 
+  navigateUser() {
+    // if(this.preHomeId === 'user'){
+    //   this.router.navigate(['/map']);
+    // }else {
+    //   this.router.navigate(['/profile/requests']);
+    // }
+  }
+
   logout() {
+    
+    this.auth.removeUser();
     this.afAuth.auth.signOut();
     this.router.navigate(['/prehome']);
   }
 
   successCallback(signInSuccessData: FirebaseUISignInSuccessWithAuthResult) {
     console.log(signInSuccessData);
-    if(this.shareService.userId && this.shareService.userId === ""){
-      this.shareService.userId = signInSuccessData.authResult.user.uid;
-    }
+    this.auth.setUserId(signInSuccessData.authResult.user.uid);
+    this.auth.setLoggedId(true);
     if(signInSuccessData.authResult.additionalUserInfo && signInSuccessData.authResult.additionalUserInfo.isNewUser){
         this.createNewUser(signInSuccessData);
     }else {
-      if(this.preHomeId === 'user'){
-        this.router.navigate(['/map']);
-      }
+      this.userService.getUser(this.auth.getUserId()).then(user=> {
+        this.auth.setUserDetails(user);
+      })
+      this.navigateUser();
     }
   }
 

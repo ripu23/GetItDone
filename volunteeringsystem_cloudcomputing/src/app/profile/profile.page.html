@@ -8,11 +8,10 @@
 
     <ion-content>
       <ion-list>
-        <ion-menu-toggle auto-hide="false" *ngFor="let p of pageInfo">
-          <ion-item [routerLink]="p.url" routeDirection="root" [class.active-item]="selectedPath === p.url">
-            {{ p.title }}
-          </ion-item>
-
+        <ion-menu-toggle auto-hide="false" *ngFor="let p of pageInfo; let i = index">
+            <ion-item [routerLink]="p.url" routeDirection="root" [class.active-item]="selectedPath === p.url">
+              {{ p.title }}
+            </ion-item>
         </ion-menu-toggle>
       </ion-list>
     </ion-content>

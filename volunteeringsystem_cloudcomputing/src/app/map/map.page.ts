@@ -133,7 +133,8 @@ export class MapPage implements OnInit, OnDestroy {
     const modal = await this.modalController.create({
       component: ModalrequestPage,
       componentProps: {
-        id: 1
+        lat: this.lat,
+        lng: this.lng
       }
     });
 

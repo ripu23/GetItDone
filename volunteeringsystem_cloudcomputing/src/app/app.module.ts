@@ -17,6 +17,8 @@ import {FirebaseUIModule, firebase, firebaseui} from 'firebaseui-angular';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import { ModalsignupPageModule } from './modalsignup/modalsignup.module';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { IonicStorageModule } from '@ionic/storage';
+
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -53,7 +55,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
             AngularFirestoreModule,
             AngularFireAuthModule,
             AngularFireDatabaseModule,
-            FirebaseUIModule.forRoot(firebaseUiAuthConfig)],
+            FirebaseUIModule.forRoot(firebaseUiAuthConfig),
+            IonicStorageModule.forRoot()],
   providers: [
     StatusBar,
     SplashScreen,

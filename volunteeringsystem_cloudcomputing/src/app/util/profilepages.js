@@ -6,5 +6,9 @@ export const pages = [
     {
         title: 'History',
         url: '/profile/history'
+    },
+    {
+        title: 'Requests',
+        url: '/profile/requests'
     }
 ];

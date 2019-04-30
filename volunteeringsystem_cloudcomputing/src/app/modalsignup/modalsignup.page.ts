@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { VolunteerService } from '../services/volunteer.service';
 import { UserService } from '../services/user.service';
 import { GeoService } from '../services/geo.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-modalsignup',
@@ -26,7 +27,8 @@ export class ModalsignupPage implements OnInit {
               private geoService: GeoService,
               private modalController: ModalController,
               private userService: UserService,
-              private loadingController: LoadingController) { }
+              private loadingController: LoadingController,
+              private auth: AuthService) { }
 
   ngOnInit() {
     this.data.title = this.navParams.get('title');
@@ -42,12 +44,8 @@ export class ModalsignupPage implements OnInit {
     if(this.signInSuccessData.authResult.user && this.signInSuccessData.authResult.user.email){
       form.value.email = this.signInSuccessData.authResult.user.email;
     }
-    if(this.preHomeId !== 'user'){
-      form.value.latestLat = this.lat;
-      form.value.latestLng = this.lng;
-    }
     form.value.userId = this.signInSuccessData.authResult.user.uid;
-
+    this.auth.setUserDetails(form.value);
     this.loadingController.create({
       message: 'Saving'
     }).then(overlay => {

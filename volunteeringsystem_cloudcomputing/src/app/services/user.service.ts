@@ -21,13 +21,11 @@ export class UserService {
       address: user.address,
       zip: user.zip,
       email: user.email,
-      phone: user.phone,
-      latestLng: user.latestLng,
-      latestLat: user.latestLat
+      phone: user.phone
     });
   } 
    async getUser(userId) {
-    var user = await this.userCollection.doc(userId).ref.get().then((snapShot) => {return snapShot.data();});
+    let user = await this.userCollection.doc(userId).ref.get().then((snapShot) => {return snapShot.data();});
     return user;
     
   } 

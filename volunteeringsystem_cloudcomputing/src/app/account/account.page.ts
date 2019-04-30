@@ -16,15 +16,15 @@ export class AccountPage implements OnInit {
   constructor(private afAuth: AngularFireAuth, private shareService: ShareService, private userService: UserService) { }
 
   ngOnInit() {
-  	this.afAuth.authState.subscribe(d => {
+  	// this.afAuth.authState.subscribe(d => {
       
-      	this.getUser(d.uid);
+    //   	this.getUser(d.uid);
       	
-    });
+    // });
   }
 
   async getUser(userId) {
-  	this.user = await this.userService.getUser(userId);
+  	// this.user = await this.userService.getUser(userId);
   	
   }
 

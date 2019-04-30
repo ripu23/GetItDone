@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { ShareService } from '../services/share.service';
+import { Storage } from '@ionic/storage';
+import { AuthService } from '../services/auth.service';
+
 
 @Component({
   selector: 'app-prehome',
@@ -10,8 +13,8 @@ import { ShareService } from '../services/share.service';
 export class PrehomePage implements OnInit {
 
   constructor(private nav: NavController,
-              // Put everything in this service that needs to be shared;
-              private shareService: ShareService) { }
+              private auth: AuthService,            
+              private storage: Storage) { }
 
   ngOnInit() {
   }
@@ -22,12 +25,12 @@ export class PrehomePage implements OnInit {
   }
 
   volunteer() {
-    this.setUserType('user');
+    this.setUserType('volunteer');
     this.nav.navigateForward('/home/volunteer');
   }
 
   setUserType(type: string) {
-    this.shareService.userType = type;
+    this.auth.setUserType(type);
   }
 
 }
