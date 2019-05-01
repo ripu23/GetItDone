@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RequestredundantService } from '../services/requestredundant.service';
 
 @Component({
   selector: 'app-requests',
@@ -7,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RequestsPage implements OnInit {
 
-  constructor() { }
+  public requests: any;
+  constructor(private requestRedundantService: RequestredundantService) {
+    this.requestRedundantService.openRequests$.subscribe(requests=> {
+      this.requests = requests;
+      console.log('Requests', this.requests);
+    })
+  }
 
   ngOnInit() {
   }

@@ -29,6 +29,10 @@ export class AuthService {
     localStorage.setItem('userType', type);
   }
 
+  getUserType(): string {
+    return localStorage.getItem('userType');
+  }
+
   getUserId() {
     return localStorage.getItem('userId');
   }

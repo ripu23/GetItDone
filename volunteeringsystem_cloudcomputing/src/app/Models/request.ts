@@ -1,5 +1,4 @@
 export interface Request {
-    id?: string;
     toAddress: string;
     fromAddress: string;
     description: string;
@@ -10,7 +9,6 @@ export interface Request {
     negotiable: boolean;
     lat: string;
     lng: string;
-    raisedBy: string;
-    userId: string;
     createdAt: number;
+    status: string;
 }

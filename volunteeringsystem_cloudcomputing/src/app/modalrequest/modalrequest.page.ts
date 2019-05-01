@@ -6,6 +6,8 @@ import { VolunteerService } from '../services/volunteer.service';
 import { Constants } from '../Models/constants';
 import { RequestService } from '../services/request.service';
 import { NgForm } from '@angular/forms';
+import { HelperService } from '../services/helper.service';
+import { RequestredundantService } from '../services/requestredundant.service';
 
 
 @Component({
@@ -20,6 +22,8 @@ export class ModalrequestPage implements OnInit {
               private geolocation: Geolocation,
               private alertController: AlertController,
               private requestService: RequestService,
+              private helperService: HelperService,
+              private requestRedundantService: RequestredundantService,
               private loadingController: LoadingController) {
 
     this.geolocation.getCurrentPosition().then( pos => {
@@ -50,6 +54,8 @@ export class ModalrequestPage implements OnInit {
     requestForm.value.createdAt = new Date().getTime();
     requestForm.value.lat = this.lat;
     requestForm.value.lng = this.lng;
+    requestForm.value.status = Constants.STATUS_NOT_DONE;
+    if(requestForm.value.negotiable === "") requestForm.value.negotiable = true;
     this.loadingController.create({
       message: 'Saving Request'
     }).then(overlay => {
@@ -59,6 +65,8 @@ export class ModalrequestPage implements OnInit {
 
     this.requestService.addRequest(requestForm.value).then( savedRequest => {
       console.log(savedRequest);
+      let uniqId = this.helperService.getUniqueIdForRequestCopyCollection(savedRequest.id);
+      this.requestRedundantService.addRequest(requestForm.value, uniqId);
       this.loading.dismiss();
       this.findVolunteers();
     });

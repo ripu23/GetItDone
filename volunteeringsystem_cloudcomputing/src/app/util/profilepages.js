@@ -1,4 +1,15 @@
-export const pages = [
+export const userPages = [
+    {
+        title: 'Account',
+        url: '/profile/account'
+    },
+    {
+        title: 'History',
+        url: '/profile/history'
+    }
+];
+
+export const volunteerPages = [
     {
         title: 'Account',
         url: '/profile/account'

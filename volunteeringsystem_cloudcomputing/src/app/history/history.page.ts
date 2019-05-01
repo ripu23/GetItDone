@@ -30,24 +30,9 @@ export class HistoryPage implements OnInit {
    }
   
 
-  ngOnInit() {
-    // let data1 = this.requestService.getRequests(this.userId)
-    // console.log(data1);
-    // let data = this.db.collection('requests', ref => ref.where('fromAddress', '==', 'rteja@asu.edu')).valueChanges().pipe(
-    //   map(res => {
-    //     return res.map( a => {
-    //       if(a['createdAt']){
-    //         a['createdAt'] = new Date(a['createdAt']).toLocaleString();
-    //       }
-    //       return a;
-    //     })
-    //   })
-    // ).subscribe(res => {
-    //   console.log(res);
-    //   this.requestHistory = res;
-    // });
-    
+  ngOnInit() {  
   }
+
   ionViewCanEnter(): boolean {
     return this.auth.isLoggedIn();
   }
