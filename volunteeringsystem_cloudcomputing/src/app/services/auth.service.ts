@@ -13,7 +13,7 @@ export class AuthService {
     localStorage.setItem('loggedIn', this.loggedInStatus);
   }
 
-  isLoggedIn(){
+  isLoggedIn(): boolean{
     return this.loggedInStatus;
   }
 

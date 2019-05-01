@@ -1,20 +1,25 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Account</ion-title>
-  </ion-toolbar>
+	<ion-toolbar color="dark">
+		<ion-buttons slot="start">
+			<ion-menu-button></ion-menu-button>
+		</ion-buttons>
+		<ion-title>Account</ion-title>
+	</ion-toolbar>
 </ion-header>
 
-<ion-content>
-	<!-- <b>ADDRESS:		</b> {{user.address}}<br>
-	<b>EMAIL:		</b>{{user.email}}<br>
-	<b>FIRST NAME:	</b>{{user.firstName}}<br>
-	<b>LAST NAME:	</b>{{user.lastName}}<br>
-	<b>LATEST LAT:	</b>{{user.latestLat}}<br>
-	<b>LATEST LONG	</b>{{user.latestLng}}<br>
-	<b>PHONE:		</b>{{user.phone}}<br>
-	<b>ZIP:			</b>{{user.zip}}<br> -->
-
+<ion-content padding>
+<div>
+	<ion-avatar class="center">
+		<img src="assets/icon/defaultAvatar.png">
+	</ion-avatar>
+</div>
+<ng-container *ngFor="let details of user | keyvalue">
+		<ion-item class="activated">
+			<ion-icon name="contact" slot="start"></ion-icon>
+			<ion-label>{{ details.key | titlecase}}</ion-label>
+			<ion-text>
+				<p>{{ details.value }}</p>
+			</ion-text>
+		</ion-item>
+	</ng-container>
 </ion-content>

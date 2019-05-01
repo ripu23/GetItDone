@@ -9,6 +9,7 @@ import { GeoService } from '../services/geo.service.js';
 import { VolunteerService } from '../services/volunteer.service.js';
 import { Constants } from '../Models/constants.js';
 import { HelperService } from '../services/helper.service.js';
+import { AuthService } from '../services/auth.service.js';
 
 declare var google;
 declare var GeolocationMarker;
@@ -46,7 +47,8 @@ export class MapPage implements OnInit, OnDestroy {
     private geolocation: Geolocation,
     private modalController: ModalController,
     private loadingController: LoadingController,
-    private helperService: HelperService) {
+    private helperService: HelperService,
+    private auth: AuthService) {
 
     this.subscription1 = this.geoService.volunteersLocation.subscribe(
       volunteers => {
@@ -60,6 +62,10 @@ export class MapPage implements OnInit, OnDestroy {
       console.log('Volunteers', this.volunteers)
     });
     this.markers = [];
+  }
+
+  ionViewCanEnter(): boolean {
+    return this.auth.isLoggedIn();
   }
 
   ngOnInit() {

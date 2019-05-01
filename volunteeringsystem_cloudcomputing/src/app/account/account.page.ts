@@ -3,6 +3,7 @@ import { ShareService } from '../services/share.service';
 import { UserService } from '../services/user.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from '../Models/user';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-account',
@@ -11,21 +12,17 @@ import { User } from '../Models/user';
 })
 export class AccountPage implements OnInit {
 
-   private user: any;
+  private user: any;
   
-  constructor(private afAuth: AngularFireAuth, private shareService: ShareService, private userService: UserService) { }
+  constructor(private afAuth: AngularFireAuth,
+              private auth: AuthService) { }
 
   ngOnInit() {
-  	// this.afAuth.authState.subscribe(d => {
-      
-    //   	this.getUser(d.uid);
-      	
-    // });
+    this.user = this.auth.getUserDetails()
   }
-
-  async getUser(userId) {
-  	// this.user = await this.userService.getUser(userId);
-  	
+  
+  ionViewCanEnter() {
+    return this.auth.isLoggedIn();
   }
 
 }
