@@ -57,10 +57,12 @@ export class GeoService {
    
    getVolunteers(key: string) {
     this.volunteerService.getVolunteers(key).subscribe(ele => {
-      let current = this.volunteers.value;
-      ele['id'] = key;
-      current.push(ele);
-      this.volunteers.next(current);
+      if(ele){
+        let current = this.volunteers.value;
+        ele['id'] = key;
+        current.push(ele);
+        this.volunteers.next(current);
+      }
     });
    }
 

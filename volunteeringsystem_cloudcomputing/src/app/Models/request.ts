@@ -11,4 +11,6 @@ export interface Request {
     lng: string;
     createdAt: number;
     status: string;
+    volunteers: string[];
+    assignedVoluneer: string;
 }

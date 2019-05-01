@@ -4,7 +4,7 @@ export const userPages = [
         url: '/profile/account'
     },
     {
-        title: 'History',
+        title: 'Requests',
         url: '/profile/history'
     }
 ];

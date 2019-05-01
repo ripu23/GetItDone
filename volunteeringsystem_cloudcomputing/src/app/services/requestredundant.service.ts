@@ -44,7 +44,9 @@ export class RequestredundantService {
       lat: request.lat,
       lng: request.lng,
       createdAt: request.createdAt,
-      status: request.status
+      status: request.status,
+      volunteers: request.volunteers,
+      assignedVoluneer: request.assignedVoluneer ? request.assignedVoluneer : ''
     })
   }
 

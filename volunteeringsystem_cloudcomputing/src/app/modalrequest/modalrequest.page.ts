@@ -8,6 +8,7 @@ import { RequestService } from '../services/request.service';
 import { NgForm } from '@angular/forms';
 import { HelperService } from '../services/helper.service';
 import { RequestredundantService } from '../services/requestredundant.service';
+import { GeoService } from '../services/geo.service';
 
 
 @Component({
@@ -17,6 +18,15 @@ import { RequestredundantService } from '../services/requestredundant.service';
 })
 export class ModalrequestPage implements OnInit {
 
+  private lat: any;
+  private lng: any;
+  private loading: any;
+  private volunteers: any;
+  private volunteersLocation: any;
+  private subscription1: any;
+  private subscription2: any;
+  request: Request;
+
   constructor(private navParams: NavParams,
               private modalController: ModalController,
               private geolocation: Geolocation,
@@ -24,25 +34,28 @@ export class ModalrequestPage implements OnInit {
               private requestService: RequestService,
               private helperService: HelperService,
               private requestRedundantService: RequestredundantService,
-              private loadingController: LoadingController) {
-
-    this.geolocation.getCurrentPosition().then( pos => {
-      this.lat = pos.coords.latitude;
-      this.lng = pos.coords.longitude;
-    })
+              private loadingController: LoadingController,
+              private geoService: GeoService,) {
 }
 
 
-  private lat: any;
-  private lng: any;
-  private loading: any;
-
-  request: Request;
+  
   
 
   ngOnInit() {
     this.lat = this.navParams.get('lat');
     this.lng = this.navParams.get('lng');
+    this.geoService.getVolunteersLocation(100, [this.lat, this.lng]);
+    this.subscription1 = this.geoService.volunteersLocation.subscribe(
+      volunteers => {
+      this.volunteersLocation = volunteers
+      console.log('modalRequestPage', this.volunteersLocation);
+    });
+
+    this.subscription2 = this.geoService.volunteers.subscribe(ele => {
+      this.volunteers = ele;
+      console.log('modalRequestPage', this.volunteers);
+    });
   }
 
   closeModal() {
@@ -61,9 +74,12 @@ export class ModalrequestPage implements OnInit {
     }).then(overlay => {
       this.loading = overlay;
       this.loading.present();
-    })
-
-    this.requestService.addRequest(requestForm.value).then( savedRequest => {
+    });
+    requestForm.value.volunteers = [];
+    this.volunteers.forEach(element => {
+      requestForm.value.volunteers.push(element.id);
+    });
+    this.requestService.addRequest(requestForm.value).then(savedRequest => {
       console.log(savedRequest);
       let uniqId = this.helperService.getUniqueIdForRequestCopyCollection(savedRequest.id);
       this.requestRedundantService.addRequest(requestForm.value, uniqId);
