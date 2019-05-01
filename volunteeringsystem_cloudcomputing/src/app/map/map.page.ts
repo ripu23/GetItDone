@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import { NavController, ModalController, LoadingController } from '@ionic/angular';
+import { NavController, ModalController, LoadingController, AlertController } from '@ionic/angular';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import '../../assets/geolocation-marker.js';
 import { ModalrequestPage } from '../modalrequest/modalrequest.page';
@@ -10,6 +10,10 @@ import { VolunteerService } from '../services/volunteer.service.js';
 import { Constants } from '../Models/constants.js';
 import { HelperService } from '../services/helper.service.js';
 import { AuthService } from '../services/auth.service.js';
+import { pages } from '../util/sidepages.js';
+import { MenuController } from '@ionic/angular';
+import { AngularFireAuth } from '@angular/fire/auth';
+
 
 declare var google;
 declare var GeolocationMarker;
@@ -36,6 +40,7 @@ export class MapPage implements OnInit, OnDestroy {
   private subscription2: any;
   private volunteers: any;
   private markers: any[];
+  public sidePages: [];
 
 
 
@@ -48,7 +53,10 @@ export class MapPage implements OnInit, OnDestroy {
     private modalController: ModalController,
     private loadingController: LoadingController,
     private helperService: HelperService,
-    private auth: AuthService) {
+    private auth: AuthService,
+    private menu: MenuController,
+    private alertController: AlertController,
+    public afAuth: AngularFireAuth) {
 
     this.subscription1 = this.geoService.volunteersLocation.subscribe(
       volunteers => {
@@ -62,6 +70,7 @@ export class MapPage implements OnInit, OnDestroy {
       console.log('Volunteers', this.volunteers)
     });
     this.markers = [];
+    this.sidePages = pages;
   }
 
   ionViewCanEnter(): boolean {
@@ -87,6 +96,41 @@ export class MapPage implements OnInit, OnDestroy {
 
   }
 
+  async navigateTo(event: string){
+    if(event === 'Profile'){
+      this.navCtrl.navigateRoot(['/profile'])
+    }else if(event === 'History'){
+      this.navCtrl.navigateRoot(['/profile/history'])
+    }else{
+      const alert = await this.alertController.create({
+        header: 'Error',
+        message: 'Really want to log out?',
+        animated: true,
+        buttons: [{
+          text: 'Yes',
+          cssClass: 'secondary',
+          handler: () => {
+            
+            this.auth.removeUser();
+            this.afAuth.auth.signOut();
+            this.navCtrl.navigateRoot(['/prehome']);
+        }},
+        {
+          text: 'Cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            alert.dismiss();
+          }
+        }]
+      })
+      await alert.present();
+    } 
+  }
+
+  toggleMenu() {
+    this.menu.enable(true, 'sideMenu');
+    this.menu.open('sideMenu');
+  }
 
   getLocation() {
     this.geolocation.getCurrentPosition().then(pos => {

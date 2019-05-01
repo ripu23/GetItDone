@@ -15,7 +15,6 @@
 </div>
 <ng-container *ngFor="let details of user | keyvalue">
 		<ion-item class="activated">
-			<ion-icon name="contact" slot="start"></ion-icon>
 			<ion-label>{{ details.key | titlecase}}</ion-label>
 			<ion-text>
 				<p>{{ details.value }}</p>

@@ -15,7 +15,6 @@
     <ion-card *ngFor="let request of requestHistory">
       <ng-container *ngFor="let history of request | keyvalue">
         <ion-item *ngIf="history.key != 'lat' && history.key != 'lng'" class="activated">
-          <ion-icon name="contacts" slot="start"></ion-icon>
           <ion-label>{{ history.key | titlecase}}</ion-label>
           <ion-text>
             <p>{{ history.value }}</p>

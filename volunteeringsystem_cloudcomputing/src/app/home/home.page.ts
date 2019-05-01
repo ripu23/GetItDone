@@ -40,15 +40,14 @@ export class HomePage {
     this.afAuth.authState.subscribe(d => {
       console.log(d);
       if(d !== null){
-        if(!this.auth.isLoggedIn) {
           this.auth.setLoggedId(true);
           this.auth.setUserId(d.uid);
           this.userService.getUser(d.uid).then(user => {
             this.auth.setUserDetails(user);
+            this.navigateUser();
           });
-        }
       }
-      this.navigateUser();
+      
     });
 
     this.geolocation.getCurrentPosition().then(pos => {
@@ -59,15 +58,14 @@ export class HomePage {
 
 
   navigateUser() {
-    // if(this.preHomeId === 'user'){
-    //   this.router.navigate(['/map']);
-    // }else {
-    //   this.router.navigate(['/profile/requests']);
-    // }
+    if(this.preHomeId === 'user'){
+      this.router.navigate(['/map']);
+    }else {
+      this.router.navigate(['/profile/requests']);
+    }
   }
 
   logout() {
-    
     this.auth.removeUser();
     this.afAuth.auth.signOut();
     this.router.navigate(['/prehome']);
@@ -96,6 +94,7 @@ export class HomePage {
         text: 'Okay',
         cssClass: 'secondary',
         handler: () => {
+          alert.dismiss();
         }
       }]
     })
@@ -117,7 +116,7 @@ export class HomePage {
     modal.onDidDismiss().then(data => {
       console.log(data);
       if(data['done']){
-        this.router.navigate(['/map']);
+        this.navigateUser();
       }
     })
     return await modal.present();
