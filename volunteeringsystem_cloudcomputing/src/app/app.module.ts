@@ -18,6 +18,7 @@ import {AngularFireAuthModule} from '@angular/fire/auth';
 import { ModalsignupPageModule } from './modalsignup/modalsignup.module';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { IonicStorageModule } from '@ionic/storage';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
@@ -28,8 +29,8 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
         scopes: [
           'public_profile',
           'email',
-          'user_likes',
-          'user_friends'
+          // 'user_likes',
+          // 'user_friends'
         ],
         customParameters: {
           'auth_type': 'reauthenticate'
@@ -39,13 +40,13 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   ],
   tosUrl: '<your-tos-link>',
   privacyPolicyUrl: '<your-privacyPolicyUrl-link>',
-  credentialHelper: firebaseui.auth.CredentialHelper.ACCOUNT_CHOOSER_COM
+  credentialHelper: firebaseui.auth.CredentialHelper.NONE
 };
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, 
+  imports: [BrowserModule,
             IonicModule.forRoot(),
             AppRoutingModule,
             ModalrequestPageModule,
@@ -61,6 +62,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     StatusBar,
     SplashScreen,
     Geolocation,
+    FCM,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
