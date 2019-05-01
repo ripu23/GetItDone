@@ -8,4 +8,5 @@ export class User {
     phone: string;
     address: string;
     zip?: string;
+    fcmToken: string;
 }

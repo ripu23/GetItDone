@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { User } from '../Models/user';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +9,13 @@ import { User } from '../Models/user';
 export class UserService {
 
   private userCollection: AngularFirestoreCollection<User>;
+  private userId: string;
 
 
-  constructor(private db: AngularFirestore) {
+  constructor(private db: AngularFirestore,
+              private auth: AuthService) {
     this.userCollection = db.collection<User>('users');
+    this.userId = this.auth.getUserId();
   }
 
   createUser(user: User) {
@@ -24,9 +28,14 @@ export class UserService {
       phone: user.phone
     });
   } 
-   async getUser(userId) {
+
+  async getUser(userId) {
     let user = await this.userCollection.doc(userId).ref.get().then((snapShot) => {return snapShot.data();});
-    return user;
-    
+    return user; 
+  }
+
+  updateUser(user: User) { 
+    return this.userCollection.doc(this.userId).update(user);
   } 
+  
 }

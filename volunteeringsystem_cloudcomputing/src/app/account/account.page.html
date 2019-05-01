@@ -8,17 +8,41 @@
 </ion-header>
 
 <ion-content padding>
-<div>
-	<ion-avatar class="center">
-		<img src="assets/icon/defaultAvatar.png">
-	</ion-avatar>
-</div>
-<ng-container *ngFor="let details of user | keyvalue">
+	<div>
+		<ion-avatar class="center">
+			<img src="assets/icon/defaultAvatar.png">
+		</ion-avatar>
+	</div>
+	<div class="user-details">
 		<ion-item class="activated">
-			<ion-label>{{ details.key | titlecase}}</ion-label>
+			<ion-label class="request-font">First name</ion-label>
 			<ion-text>
-				<p>{{ details.value }}</p>
+				<p>{{ user.firstName }}</p>
 			</ion-text>
 		</ion-item>
-	</ng-container>
+		<ion-item class="activated">
+			<ion-label class="request-font">Last name</ion-label>
+			<ion-text>
+				<p>{{ user.lastName }}</p>
+			</ion-text>
+		</ion-item>
+		<ion-item class="activated">
+			<ion-label class="request-font">Address</ion-label>
+			<ion-text>
+				<p>{{ user.address }}</p>
+			</ion-text>
+		</ion-item>
+		<ion-item class="activated">
+			<ion-label class="request-font">Phone</ion-label>
+			<ion-text>
+				<p>{{ user.phone }}</p>
+			</ion-text>
+		</ion-item>
+		<ion-item class="activated">
+			<ion-label class="request-font">Zip</ion-label>
+			<ion-text>
+				<p>{{ user.zip }}</p>
+			</ion-text>
+		</ion-item>
+	</div>
 </ion-content>

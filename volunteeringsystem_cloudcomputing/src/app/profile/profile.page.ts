@@ -35,9 +35,11 @@ export class ProfilePage implements OnInit {
     }else{
       this.pageInfo = volunteerPages;
     }
-    let routes = this.selectedPath.split('/');
-    if(routes.length <= 2){
-      this.router.navigate(['/profile/account']);
+    if(this.selectedPath){
+      let routes = this.selectedPath.split('/');
+      if(routes.length <= 2){
+        this.router.navigate(['/profile/account']);
+      }
     }
   }
 
