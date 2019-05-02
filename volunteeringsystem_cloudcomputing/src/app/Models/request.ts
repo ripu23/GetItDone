@@ -12,5 +12,6 @@ export interface Request {
     createdAt: number;
     status: string;
     volunteers: string[];
-    assignedVoluneer: string;
+    assignedVolunteer: string;
+    userId: string;
 }

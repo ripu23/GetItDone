@@ -12,20 +12,20 @@ import { Constants } from '../Models/constants';
 export class RequestredundantService {
 
   private requestCopyCollection: AngularFirestoreCollection<Request>;
-  private userId: string = '';
+  private userId = '';
   requests = new BehaviorSubject([]);
-  openRequests$: Observable<Request[]>
-  openStatus$: BehaviorSubject<string|null>
-  closedStatus$: Observable<String>
+  openRequests$: Observable<Request[]>;
+  openStatus$: BehaviorSubject<string|null>;
+  closedStatus$: Observable<String>;
 
   constructor(private db: AngularFirestore,
               private auth: AuthService) {
 
-  
+
     this.userId = this.auth.getUserId();
     this.requestCopyCollection = db.collection<Request>('requestscopy');
     this.openStatus$ = new BehaviorSubject(Constants.STATUS_NOT_DONE);
-    this.openRequests$ = this.openStatus$.pipe(switchMap(data => 
+    this.openRequests$ = this.openStatus$.pipe(switchMap(data =>
       this.db.collection<Request>('requestscopy', ref => ref.where('status', '==', data)).valueChanges(),
     ));
     this.openStatus$.next('OPEN');
@@ -46,11 +46,12 @@ export class RequestredundantService {
       createdAt: request.createdAt,
       status: request.status,
       volunteers: request.volunteers,
-      assignedVoluneer: request.assignedVoluneer ? request.assignedVoluneer : ''
-    })
+      userId: request.userId,
+      assignedVolunteer: request.assignedVolunteer ? request.assignedVolunteer : ''
+    });
   }
 
-  getOpenRequests(){
+  getOpenRequests() {
     return this.openRequests$;
   }
 }

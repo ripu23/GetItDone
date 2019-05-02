@@ -16,13 +16,13 @@ export class ClosedRequestUserPage implements OnInit {
 
   constructor(private db: AngularFirestore,
               private auth: AuthService,
-              private requestService: RequestService){
-      
+              private requestService: RequestService) {
+
     this.userId = this.auth.getUserId();
-    this.requestService.closedRequests$.subscribe(requests=> {
+    this.requestService.closedRequests$.subscribe(requests => {
       this.closedRequests = requests;
       console.log('Requests', this.closedRequests);
-    })
+    });
   }
 
   ngOnInit() {

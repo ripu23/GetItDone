@@ -9,6 +9,7 @@ import { NgForm } from '@angular/forms';
 import { HelperService } from '../services/helper.service';
 import { RequestredundantService } from '../services/requestredundant.service';
 import { GeoService } from '../services/geo.service';
+import {AuthService} from "../services/auth.service";
 
 
 @Component({
@@ -35,6 +36,7 @@ export class ModalrequestPage implements OnInit {
               private helperService: HelperService,
               private requestRedundantService: RequestredundantService,
               private loadingController: LoadingController,
+              private auth: AuthService,
               private geoService: GeoService, ) {
   }
 
@@ -63,6 +65,7 @@ export class ModalrequestPage implements OnInit {
     requestForm.value.createdAt = new Date().getTime();
     requestForm.value.lat = this.lat;
     requestForm.value.lng = this.lng;
+    requestForm.value.userId = this.auth.getUserId();
     requestForm.value.status = Constants.STATUS_NOT_DONE;
     if (requestForm.value.negotiable === '') { requestForm.value.negotiable = true; }
     this.loadingController.create({
@@ -76,12 +79,12 @@ export class ModalrequestPage implements OnInit {
       requestForm.value.volunteers.push(element.id);
     });
     this.requestService.addRequest(requestForm.value).then(savedRequest => {
-      console.log(savedRequest);
       const uniqId = this.helperService.getUniqueIdForRequestCopyCollection(savedRequest.id);
+      console.log('savedRequest', uniqId);
       this.requestRedundantService.addRequest(requestForm.value, uniqId);
       this.loading.dismiss();
       this.closeModal();
-      this.findVolunteers();
+      // this.findVolunteers();
     });
 
   }
