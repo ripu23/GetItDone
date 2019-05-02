@@ -27,15 +27,14 @@ export class UserService {
       email: user.email,
       phone: user.phone
     });
-  } 
-
-  async getUser(userId) {
-    let user = await this.userCollection.doc(userId).ref.get().then((snapShot) => {return snapShot.data();});
-    return user; 
   }
 
-  updateUser(user: User) { 
+  async getUser(userId) {
+    return await this.userCollection.doc(userId).ref.get().then((snapShot) => snapShot.data());
+  }
+
+  updateUser(user: User) {
     return this.userCollection.doc(this.userId).update(user);
-  } 
-  
+  }
+
 }

@@ -23,12 +23,6 @@ export class AppComponent {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      this.fcm.getToken().then(token => {
-        // console.log(token);
-      });
-      this.fcm.onTokenRefresh().subscribe(token => {
-        // console.log(token);
-      });
     });
   }
 }
