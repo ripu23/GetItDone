@@ -5,19 +5,19 @@ import { Injectable } from '@angular/core';
 })
 export class AuthService {
 
-  private loggedInStatus = JSON.parse(localStorage.getItem('loggedIn') || 'false')
+  private loggedInStatus = JSON.parse(localStorage.getItem('loggedIn') || 'false');
   constructor() { }
 
-  setLoggedId(value: boolean){
+  setLoggedId(value: boolean) {
     this.loggedInStatus = value;
     localStorage.setItem('loggedIn', this.loggedInStatus);
   }
 
-  isLoggedIn(): boolean{
+  isLoggedIn(): boolean {
     return this.loggedInStatus;
   }
 
-  setUserDetails(user){
+  setUserDetails(user) {
     localStorage.setItem('userDetails', JSON.stringify(user));
   }
 
@@ -26,7 +26,7 @@ export class AuthService {
   }
 
   setUserType(type: string) {
-    localStorage.setItem('userType', type);
+    return localStorage.setItem('userType', type);
   }
 
   getUserType(): string {
@@ -41,7 +41,7 @@ export class AuthService {
   getUserDetails() {
     return JSON.parse(localStorage.getItem('userDetails'));
   }
-  
+
   setLatLng(lat: any, lng: any) {
     localStorage.setItem('lat', lat);
     localStorage.setItem('lng', lng);
@@ -54,15 +54,18 @@ export class AuthService {
   getLng() {
     return parseFloat(localStorage.getItem('lng'));
   }
-  
+
   removeUser() {
-    localStorage.removeItem('userDetails');
-    localStorage.removeItem('userType');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('loggedIn');
-    localStorage.removeItem('lat');
-    localStorage.removeItem('lng');
     this.loggedInStatus = false;
+    const rPromises = [
+      localStorage.removeItem('userDetails'),
+      localStorage.removeItem('userType'),
+      localStorage.removeItem('userId'),
+      localStorage.removeItem('loggedIn'),
+      localStorage.removeItem('lat'),
+      localStorage.removeItem('lng'),
+    ];
+    return Promise.all(rPromises);
   }
 
 }

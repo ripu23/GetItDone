@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { ShareService } from '../services/share.service';
 import { Storage } from '@ionic/storage';
 import { AuthService } from '../services/auth.service';
+import {AngularFireAuth} from "@angular/fire/auth";
 
 
 @Component({
@@ -13,24 +14,32 @@ import { AuthService } from '../services/auth.service';
 export class PrehomePage implements OnInit {
 
   constructor(private nav: NavController,
-              private auth: AuthService,            
+              private auth: AuthService,
+              private afAuth: AngularFireAuth,
               private storage: Storage) { }
 
   ngOnInit() {
   }
 
-  user() {
-    this.setUserType('user');
+  async user() {
+    await this.setUserType('user');
     this.nav.navigateForward('/home/user');
   }
 
-  volunteer() {
-    this.setUserType('volunteer');
+  async volunteer() {
+    await this.setUserType('volunteer');
     this.nav.navigateForward('/home/volunteer');
   }
 
-  setUserType(type: string) {
-    this.auth.setUserType(type);
+  async setUserType(type: string) {
+    const curType = this.auth.getUserType();
+    // if previous logged in user was not of same type, log it out
+    if (curType !== type) {
+      console.log('removing', curType, 'to login', type);
+      await this.auth.removeUser();
+      this.afAuth.auth.signOut();
+    }
+    return this.auth.setUserType(type);
   }
 
 }
