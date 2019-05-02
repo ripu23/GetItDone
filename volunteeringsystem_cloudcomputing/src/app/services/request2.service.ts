@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { Request } from '../Models/request';
-import { AuthService } from './auth.service';
 import { Constants } from '../Models/constants';
 
 @Injectable({
@@ -11,8 +10,7 @@ export class Request2Service {
 
   private requestCollection: AngularFirestoreCollection<Request>;
 
-  constructor(private db: AngularFirestore,
-              private auth: AuthService) {
+  constructor(private db: AngularFirestore) {
     this.requestCollection = db.collection<Request>('requests2');
   }
 
@@ -45,17 +43,5 @@ export class Request2Service {
       }
       return query;
     }).valueChanges();
-  }
-
-  getOpenRequests(userType, userId) {
-    return this.getRequests(userType, userId, Constants.STATUS_NOT_DONE);
-  }
-
-  getInprogressRequests(userType, userId) {
-    return this.getRequests(userType, userId, Constants.STATUS_IN_PROGRESS);
-  }
-
-  getClosedRequests(userType, userId) {
-    return this.getRequests(userType, userId, Constants.STATUS_DONE);
   }
 }

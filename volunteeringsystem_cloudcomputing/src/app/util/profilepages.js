@@ -46,6 +46,10 @@ export const pages = [
         url: '/profile/account'
     },
     {
+        title: 'Create Request',
+        url: '/map'
+    },
+    {
         title: 'Pending Requests',
         url: '/profile/requests/' + Constants.STATUS_NOT_DONE
     },
