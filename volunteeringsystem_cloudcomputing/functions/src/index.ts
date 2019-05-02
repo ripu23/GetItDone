@@ -5,7 +5,7 @@ admin.initializeApp();
 
 // Send notification to volunteers for the new request
 exports.sendNewRequestNotification = functions.firestore
-  .document('requestscopy/{requestId}')
+  .document('requests2/{requestId}')
   .onCreate(async (snap, context) => {
     // const requestId = context.params.requestId;
     const request = snap.data();
