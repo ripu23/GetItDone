@@ -44,13 +44,14 @@ export class HomePage {
     this.uType = this.auth.getUserType();
 
     this.afAuth.authState.subscribe(async (d) => {
-      console.log(d);
+      console.log('authState.subscribe d', d);
       if (d !== null) {
         this.auth.setLoggedId(true);
         this.auth.setUserId(d.uid);
         await this.setUser();
         this.auth.setUserDetails(this.user);
-        await this.setupNotifications();
+        this.setupNotifications();
+        console.log('authState.subscribe inside d!=null');
         this.navigateUser();
       }
     });
@@ -62,6 +63,7 @@ export class HomePage {
   }
 
   async setUser() {
+    console.log('set user');
     if (this.uType === 'user') {
       this.user = await this.userService.getUser(this.auth.getUserId());
     } else {
@@ -71,6 +73,7 @@ export class HomePage {
   }
 
   async updateUser() {
+    console.log('update user');
     if (this.uType === 'volunteer') {
       await this.volunteerService.updateVolunteer(this.user);
     } else {
@@ -79,7 +82,8 @@ export class HomePage {
   }
 
   navigateUser() {
-    if (this.preHomeId === 'user') {
+    console.log('navigateUser', this.uType);
+    if (this.uType === 'user') {
       this.router.navigate(['/map']);
     } else {
       this.router.navigate(['/profile/requests']);
@@ -87,6 +91,7 @@ export class HomePage {
   }
 
   async setupNotifications () {
+    console.log('setup notifications');
     if (this.uType === 'volunteer') {
       this.fcm.onNotification().subscribe(data => {
         this.router.navigate(['/profile/requests']);
@@ -115,7 +120,7 @@ export class HomePage {
   }
 
   async successCallback(signInSuccessData: FirebaseUISignInSuccessWithAuthResult) {
-    console.log(signInSuccessData);
+    console.log('signInSuccessData', signInSuccessData);
     this.auth.setUserId(signInSuccessData.authResult.user.uid);
     this.auth.setLoggedId(true);
     if (signInSuccessData.authResult.additionalUserInfo && signInSuccessData.authResult.additionalUserInfo.isNewUser) {
@@ -123,7 +128,7 @@ export class HomePage {
     } else {
       await this.setUser();
       this.auth.setUserDetails(this.user);
-      await this.setupNotifications();
+      this.setupNotifications();
       this.navigateUser();
     }
   }
@@ -161,7 +166,7 @@ export class HomePage {
       if (data['done']) {
         await this.setUser();
         this.auth.setUserDetails(this.user);
-        await this.setupNotifications();
+        this.setupNotifications();
         this.navigateUser();
       }
     });
