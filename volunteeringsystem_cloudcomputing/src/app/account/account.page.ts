@@ -16,7 +16,7 @@ import { Request2Service } from '../services/request2.service';
 })
 export class AccountPage implements OnInit {
 
-  // private user: any;
+  private user: any;
   //
   // private openRequestsOb: Observable<Request[]>;
   // private openRequests: Request[];
@@ -31,7 +31,7 @@ export class AccountPage implements OnInit {
     private requestService: Request2Service) { }
 
   ngOnInit() {
-    // this.user = this.auth.getUserDetails();
+    this.user = this.auth.getUserDetails();
     // this.openRequestsOb = this.requestService.getOpenRequests(this.user.type, this.user.id);
     // this.openRequestsOb.subscribe((reqs: Request[]) => {
     //   this.openRequests = reqs;

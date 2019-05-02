@@ -5,14 +5,23 @@
     </ion-toolbar>
   </ion-header>
   <ion-content>
-    <ion-list *ngFor="let p of sidePages; let i = index">
+    <ion-list>
+      <ion-menu-toggle *ngFor="let p of menuPages"
+                       auto-hide="false">
+        <ion-item [routerLink]="p.url" routeDirection="root" [class.active-item]="selectedPath === p.url">
+          <ion-label>
+            {{ p.title }}
+          </ion-label>
+        </ion-item>
+      </ion-menu-toggle>
 
-      <ion-item (click)="navigateTo(p.title)" class="activated">
-        <ion-icon name="{{p.icon}}" slot="start"></ion-icon>
-        <ion-text>
-          <p>{{ p.title }}</p>
-        </ion-text>
-      </ion-item>
+      <ion-menu-toggle auto-hide="false">
+        <ion-item (click)="logout()">
+          <ion-label>
+            LogOut
+          </ion-label>
+        </ion-item>
+      </ion-menu-toggle>
     </ion-list>
   </ion-content>
 </ion-menu>

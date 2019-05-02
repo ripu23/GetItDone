@@ -13,7 +13,6 @@ import {AuthService} from '../services/auth.service';
 })
 export class RequestsPage implements OnInit {
 
-  // private requests: any;
   private status: String;
   private statusMap = {};
   private user: any;

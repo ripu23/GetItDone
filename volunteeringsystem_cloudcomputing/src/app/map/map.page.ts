@@ -10,7 +10,7 @@ import { VolunteerService } from '../services/volunteer.service.js';
 import { Constants } from '../Models/constants.js';
 import { HelperService } from '../services/helper.service.js';
 import { AuthService } from '../services/auth.service.js';
-import { pages } from '../util/sidepages.js';
+import { pages } from '../util/profilepages.js';
 import { MenuController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
@@ -26,12 +26,12 @@ declare var GeolocationMarker;
 })
 export class MapPage implements OnInit, OnDestroy {
 
-  //public variables here
+  // public variables here
   @ViewChild('map')
   public mapElement: ElementRef;
   public map: any;
 
-  //private variables here
+  // private variables here
   private lat: any;
   private lng: any;
   private loading: any;
@@ -42,6 +42,7 @@ export class MapPage implements OnInit, OnDestroy {
   private volunteers: any;
   private markers: any[];
   public sidePages: [];
+  public menuPages: [];
 
 
 
@@ -58,21 +59,22 @@ export class MapPage implements OnInit, OnDestroy {
     private menu: MenuController,
     private alertController: AlertController,
     public afAuth: AngularFireAuth,
-    private router: Router,) {
+    private router: Router, ) {
 
     this.subscription1 = this.geoService.volunteersLocation.subscribe(
       volunteers => {
-      this.volunteersLocation = volunteers
+      this.volunteersLocation = volunteers;
       console.log('Volunteer Location', this.volunteersLocation);
       this.addVolunteersToMap();
     });
 
     this.subscription2 = this.geoService.volunteers.subscribe(ele => {
       this.volunteers = ele;
-      console.log('Volunteers', this.volunteers)
+      console.log('Volunteers', this.volunteers);
     });
     this.markers = [];
-    this.sidePages = pages;
+    // this.sidePages = pages;
+    this.menuPages = pages;
   }
 
   ionViewCanEnter(): boolean {
@@ -86,7 +88,7 @@ export class MapPage implements OnInit, OnDestroy {
       this.loading = overlay;
       this.loading.present();
       this.getLocation();
-    })
+    });
   }
 
   ngOnDestroy() {
@@ -98,12 +100,12 @@ export class MapPage implements OnInit, OnDestroy {
 
   }
 
-  async navigateTo(event: string){
-    if(event === 'Account'){
-      this.router.navigate(['/profile'])
-    }else if(event === 'History'){
-      this.router.navigate(['/profile/history/openrequests'])
-    }else{
+  async navigateTo(event: string) {
+    if (event === 'Account') {
+      this.router.navigate(['/profile/account']);
+    } else if (event === 'Requests') {
+      this.router.navigate(['/profile/history/openrequests']);
+    } else {
       const alert = await this.alertController.create({
         header: 'Error',
         message: 'Really want to log out?',
@@ -112,7 +114,7 @@ export class MapPage implements OnInit, OnDestroy {
           text: 'Yes',
           cssClass: 'secondary',
           handler: () => {
-            
+
             this.auth.removeUser();
             this.afAuth.auth.signOut();
             this.navCtrl.navigateRoot(['/prehome']);
@@ -124,9 +126,9 @@ export class MapPage implements OnInit, OnDestroy {
             alert.dismiss();
           }
         }]
-      })
+      });
       await alert.present();
-    } 
+    }
   }
 
   toggleMenu() {
@@ -135,7 +137,7 @@ export class MapPage implements OnInit, OnDestroy {
   }
 
   getLocation() {
-    
+
     this.geolocation.getCurrentPosition().then(pos => {
       this.loading.dismiss();
       this.lat = pos.coords.latitude;
@@ -144,19 +146,19 @@ export class MapPage implements OnInit, OnDestroy {
       // Uncomment this to load map.
       this.initMap();
       this.geoService.getVolunteersLocation(100, [this.lat, this.lng]);
-    })
+    });
   }
 
   initMap() {
-    let coords = new google.maps.LatLng(this.lat, this.lng);
-    let mapoptions = google.maps.MapOptions = {
+    const coords = new google.maps.LatLng(this.lat, this.lng);
+    const mapoptions = google.maps.MapOptions = {
       center: coords,
       zoom: 14,
       mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
+    };
 
     this.map = new google.maps.Map(this.mapElement.nativeElement, mapoptions);
-    let geoMarker = new GeolocationMarker(this.map);
+    const geoMarker = new GeolocationMarker(this.map);
   }
 
   addVolunteersToMap() {
@@ -166,8 +168,8 @@ export class MapPage implements OnInit, OnDestroy {
   }
 
   addMarker(location: any, id: string) {
-    let coords = new google.maps.LatLng(location[0], location[1]);
-    let marker = new google.maps.Marker({
+    const coords = new google.maps.LatLng(location[0], location[1]);
+    const marker = new google.maps.Marker({
       position: coords,
       map: this.map,
       icon: Constants.MARKER_IMAGE
@@ -199,7 +201,7 @@ export class MapPage implements OnInit, OnDestroy {
       } else {
 
       }
-    })
+    });
 
     return await modal.present();
   }
