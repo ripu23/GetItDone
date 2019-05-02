@@ -7,8 +7,7 @@ const routes: Routes = [
   { path: 'map', loadChildren: './map/map.module#MapPageModule' },
   { path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule' },
   { path: 'prehome', loadChildren: './prehome/prehome.module#PrehomePageModule' },
-  { path: 'signup', loadChildren: './modalsignup/modalsignup.module#ModalsignupPageModule'},
-  { path: 'testrequest-user', loadChildren: './menu/testrequest-user/testrequest-user.module#TestrequestUserPageModule' }
+  { path: 'signup', loadChildren: './modalsignup/modalsignup.module#ModalsignupPageModule'}
 ];
 
 @NgModule({
