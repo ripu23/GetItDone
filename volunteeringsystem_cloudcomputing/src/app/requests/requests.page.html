@@ -55,6 +55,10 @@
                     <p>{{ request.volunteer.phone }}</p>
                 </ion-text>
             </ion-item>
+            <ion-item lines="none" *ngIf="status == 'OPEN' && user.type == 'volunteer'">
+                <ion-button (click)="acceptRequest(request)">Accept Task</ion-button>
+                <ion-button (click)="ignoreRequest(request)">Ignore Task</ion-button>
+            </ion-item>
         </ion-card-content>
     </ion-card>
 </ion-content>

@@ -42,6 +42,8 @@ export class Request2Service {
         }
       }
       return query;
-    }).valueChanges();
+    // }).valueChanges();
+    // }).snapshotChanges();
+    });
   }
 }
