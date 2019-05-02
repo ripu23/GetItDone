@@ -81,6 +81,31 @@ export class MapPage implements OnInit, OnDestroy {
     return this.auth.isLoggedIn();
   }
 
+  async logout() {
+    const alert = await this.alertController.create({
+      header: 'Error',
+      message: 'Really want to log out?',
+      animated: true,
+      buttons: [{
+        text: 'Yes',
+        cssClass: 'secondary',
+        handler: () => {
+
+          this.auth.removeUser();
+          this.afAuth.auth.signOut();
+          this.navCtrl.navigateRoot(['/prehome']);
+      }},
+      {
+        text: 'Cancel',
+        cssClass: 'secondary',
+        handler: () => {
+          alert.dismiss();
+        }
+      }]
+    });
+    await alert.present();
+  }
+
   ngOnInit() {
     this.loadingController.create({
       message: 'Setting satellites in position..'

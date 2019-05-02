@@ -15,7 +15,7 @@
       <ion-list>
         <ion-menu-toggle *ngFor="let p of menuPages"
         auto-hide="false">
-          <ion-item [routerLink]="p.url" routeDirection="root" [class.active-item]="selectedPath === p.url">
+          <ion-item [routerLink]="p.url" routerDirection="root" [class.active-item]="selectedPath === p.url">
             <ion-label>
               {{ p.title }}
             </ion-label>
@@ -25,7 +25,7 @@
         <ion-menu-toggle auto-hide="false">
           <ion-item (click)="logout()">
             <ion-label>
-              LogOut
+              Log out
             </ion-label>
           </ion-item>
         </ion-menu-toggle>
