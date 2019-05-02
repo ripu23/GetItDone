@@ -70,4 +70,11 @@ export class RequestsPage implements OnInit {
     this.requestService.updateRequest(reqId, request);
   }
 
+  completeRequest(request) {
+    request.status = Constants.STATUS_DONE;
+    const reqId = request.id;
+    delete request.id;
+    this.requestService.updateRequest(reqId, request);
+  }
+
 }
