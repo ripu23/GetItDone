@@ -13,29 +13,28 @@ import { AuthService } from '../services/auth.service';
 export class AccountPage implements OnInit {
 
   private user: any;
-
+  
   constructor(private afAuth: AngularFireAuth, private auth: AuthService) { }
 
   ngOnInit() {
-    this.user = this.auth.getUserDetails();
+    this.user = this.auth.getUserDetails()
   }
-
+  
   ionViewCanEnter() {
     return this.auth.isLoggedIn();
   }
 
-  // uploadProfilePic(event) {
-  //   if (event.target.files && event.target.files[0]) {
-  //
-  //     // Read the uploaded file
-  //     var filereader = new FileReader();
-  //     reader.readAsDataURL(event.target.files[0]);
-  //
-  //     // Display it in the profile pic box
-  //     reader.onload = (event) => {
-  //       this.url = event.target.result;
-  //     }
-  //   }
-  // }
+  uploadProfilePic(profilePicUploadEvent) {
+    
+    if (profilePicUploadEvent.target.files && profilePicUploadEvent.target.files[0]) {
+      
+      var fileReader = new FileReader();
+      fileReader.readAsDataURL(profilePicUploadEvent.target.files[0]);
+      fileReader.onload = (profilePicUploadEvent) => { 
+        this.url = profilePicUploadEvent.target.result;
+      }
+    }
+  }
+
 }
 
