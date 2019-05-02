@@ -23,6 +23,7 @@ export class HomePage {
   private lng: any;
   private preHomeId: string;
   private user: any;
+  private uType: any;
 
   constructor(public afAuth: AngularFireAuth,
               private geolocation: Geolocation,
@@ -33,24 +34,24 @@ export class HomePage {
               private alertController: AlertController,
               private auth: AuthService,
               private fcm: FCM,
+              private volunteerService: VolunteerService,
               private userService: UserService) {
 
   }
 
   ngOnInit(): void {
     this.preHomeId = this.activatedRoute.snapshot.paramMap.get('id');
+    this.uType = this.auth.getUserType();
 
-    this.afAuth.authState.subscribe(d => {
+    this.afAuth.authState.subscribe(async (d) => {
       console.log(d);
       if (d !== null) {
-          this.auth.setLoggedId(true);
-          this.auth.setUserId(d.uid);
-          this.userService.getUser(d.uid).then(user => {
-            this.user = user;
-            this.auth.setUserDetails(user);
-            this.setupNotifications();
-            this.navigateUser();
-          });
+        this.auth.setLoggedId(true);
+        this.auth.setUserId(d.uid);
+        await this.setUser();
+        this.auth.setUserDetails(this.user);
+        await this.setupNotifications();
+        this.navigateUser();
       }
     });
 
@@ -60,6 +61,22 @@ export class HomePage {
     });
   }
 
+  async setUser() {
+    if (this.uType === 'user') {
+      this.user = await this.userService.getUser(this.auth.getUserId());
+    } else {
+      this.user = await this.volunteerService.getVolunteer(this.auth.getUserId());
+    }
+    console.log('user get completed', this.user);
+  }
+
+  async updateUser() {
+    if (this.uType === 'volunteer') {
+      await this.volunteerService.updateVolunteer(this.user);
+    } else {
+      await this.userService.updateUser(this.user);
+    }
+  }
 
   navigateUser() {
     if (this.preHomeId === 'user') {
@@ -69,27 +86,25 @@ export class HomePage {
     }
   }
 
-  setupNotifications () {
-    if (this.auth.getUserType() === 'volunteer') {
-      this.fcm.subscribeToTopic('requests');
+  async setupNotifications () {
+    if (this.uType === 'volunteer') {
       this.fcm.onNotification().subscribe(data => {
         this.router.navigate(['/profile/requests']);
       });
     } else {
-      this.fcm.unsubscribeFromTopic('requests');
       this.fcm.onNotification().subscribe(data => {
         this.router.navigate(['/profile/history']);
       });
     }
-    this.fcm.getToken().then(token => {
-      console.log('FCM', token);
+    await this.fcm.getToken().then(async token => {
+      console.log('FCM', this.uType, token);
       this.user.fcmToken = token;
-      this.userService.updateUser(this.user);
+      await this.updateUser();
     });
     this.fcm.onTokenRefresh().subscribe(token => {
-      console.log('refreshed FCM', token);
+      console.log('refreshed FCM', this.uType, token);
       this.user.fcmToken = token;
-      this.userService.updateUser(this.user);
+      this.updateUser();
     });
   }
 
@@ -99,19 +114,17 @@ export class HomePage {
     this.router.navigate(['/prehome']);
   }
 
-  successCallback(signInSuccessData: FirebaseUISignInSuccessWithAuthResult) {
+  async successCallback(signInSuccessData: FirebaseUISignInSuccessWithAuthResult) {
     console.log(signInSuccessData);
     this.auth.setUserId(signInSuccessData.authResult.user.uid);
     this.auth.setLoggedId(true);
     if (signInSuccessData.authResult.additionalUserInfo && signInSuccessData.authResult.additionalUserInfo.isNewUser) {
         this.createNewUser(signInSuccessData);
     } else {
-      this.userService.getUser(this.auth.getUserId()).then(user => {
-        this.user = user;
-        this.auth.setUserDetails(user);
-        this.setupNotifications();
-        this.navigateUser();
-      });
+      await this.setUser();
+      this.auth.setUserDetails(this.user);
+      await this.setupNotifications();
+      this.navigateUser();
     }
   }
 
@@ -143,15 +156,13 @@ export class HomePage {
       }
     });
 
-    modal.onDidDismiss().then(data => {
+    modal.onDidDismiss().then(async data => {
       console.log(data);
       if (data['done']) {
-        this.userService.getUser(this.auth.getUserId()).then(user => {
-          this.user = user;
-          this.auth.setUserDetails(user);
-          this.setupNotifications();
-          this.navigateUser();
-        });
+        await this.setUser();
+        this.auth.setUserDetails(this.user);
+        await this.setupNotifications();
+        this.navigateUser();
       }
     });
     return await modal.present();

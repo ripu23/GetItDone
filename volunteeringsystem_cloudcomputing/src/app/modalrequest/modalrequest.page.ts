@@ -80,6 +80,7 @@ export class ModalrequestPage implements OnInit {
       const uniqId = this.helperService.getUniqueIdForRequestCopyCollection(savedRequest.id);
       this.requestRedundantService.addRequest(requestForm.value, uniqId);
       this.loading.dismiss();
+      this.closeModal();
       this.findVolunteers();
     });
 
