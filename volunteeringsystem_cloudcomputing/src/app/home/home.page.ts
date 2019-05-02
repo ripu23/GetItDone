@@ -86,7 +86,7 @@ export class HomePage {
     if (this.uType === 'user') {
       this.router.navigate(['/map']);
     } else {
-      this.router.navigate(['/profile/requests']);
+      this.router.navigate(['/profile/requests/open']);
     }
   }
 
@@ -94,11 +94,11 @@ export class HomePage {
     console.log('setup notifications');
     if (this.uType === 'volunteer') {
       this.fcm.onNotification().subscribe(data => {
-        this.router.navigate(['/profile/requests']);
+        this.router.navigate(['/profile/requests/in-progress']);
       });
     } else {
       this.fcm.onNotification().subscribe(data => {
-        this.router.navigate(['/profile/history']);
+        this.router.navigate(['/profile/requests/open']);
       });
     }
     await this.fcm.getToken().then(async token => {
