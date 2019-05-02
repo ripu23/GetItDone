@@ -24,17 +24,17 @@ export class AccountPage implements OnInit {
     return this.auth.isLoggedIn();
   }
 
-  uploadProfilePic(profilePicUploadEvent) {
-    
-    if (profilePicUploadEvent.target.files && profilePicUploadEvent.target.files[0]) {
-      
-      var fileReader = new FileReader();
-      fileReader.readAsDataURL(profilePicUploadEvent.target.files[0]);
-      fileReader.onload = (profilePicUploadEvent) => { 
-        this.url = profilePicUploadEvent.target.result;
-      }
-    }
-  }
+  // uploadProfilePic(profilePicUploadEvent) {
+  //
+  //   if (profilePicUploadEvent.target.files && profilePicUploadEvent.target.files[0]) {
+  //
+  //     var fileReader = new FileReader();
+  //     fileReader.readAsDataURL(profilePicUploadEvent.target.files[0]);
+  //     fileReader.onload = (profilePicUploadEvent) => {
+  //       this.url = profilePicUploadEvent.target.result;
+  //     }
+  //   }
+  // }
 
 }
 

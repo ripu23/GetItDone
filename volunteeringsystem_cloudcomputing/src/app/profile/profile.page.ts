@@ -15,34 +15,35 @@ export class ProfilePage implements OnInit {
   public pageInfo = [];
   public selectedPath = '';
   public preHomeId = '';
-  public open: boolean = false;
+  public open = false;
 
   constructor(private router: Router,
               private auth: AuthService,
               public afAuth: AngularFireAuth,
               private navCtrl: NavController,
               private alertController: AlertController) {
-    
+
     console.log(this.selectedPath);
-    this.preHomeId = this.auth.getUserType();  
-    if(this.auth.getUserType() === 'user'){
+    this.preHomeId = this.auth.getUserType();
+    if (this.auth.getUserType() === 'user') {
       this.pageInfo = userPages;
-    }else{
+    } else {
       this.pageInfo = volunteerPages;
     }
+    // console.log('pageInfo', this.auth.getUserType(), this.pageInfo);
     this.router.navigate(['/profile/account']);
-    
+
    }
 
-  
+
   ngOnInit() {
     this.router.events.subscribe( (event: RouterEvent) => {
       this.selectedPath = event.url;
-    })
+    });
   }
 
   goBack(): void {
-    this.router.navigate(['/map'])
+    this.router.navigate(['/map']);
   }
 
   async logout() {
@@ -54,7 +55,7 @@ export class ProfilePage implements OnInit {
         text: 'Yes',
         cssClass: 'secondary',
         handler: () => {
-          
+
           this.auth.removeUser();
           this.afAuth.auth.signOut();
           this.navCtrl.navigateRoot(['/prehome']);
@@ -66,7 +67,7 @@ export class ProfilePage implements OnInit {
           alert.dismiss();
         }
       }]
-    })
+    });
     await alert.present();
   }
 
