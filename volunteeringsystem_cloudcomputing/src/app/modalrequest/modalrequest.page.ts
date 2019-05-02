@@ -35,22 +35,18 @@ export class ModalrequestPage implements OnInit {
               private helperService: HelperService,
               private requestRedundantService: RequestredundantService,
               private loadingController: LoadingController,
-              private geoService: GeoService,) {
-}
-
-
-  
-  
+              private geoService: GeoService, ) {
+  }
 
   ngOnInit() {
     this.lat = this.navParams.get('lat');
     this.lng = this.navParams.get('lng');
     this.geoService.getVolunteersLocation(100, [this.lat, this.lng]);
     this.subscription1 = this.geoService.volunteersLocation.subscribe(
-      volunteers => {
-      this.volunteersLocation = volunteers
-      console.log('modalRequestPage', this.volunteersLocation);
-    });
+        volunteers => {
+          this.volunteersLocation = volunteers
+          console.log('modalRequestPage', this.volunteersLocation);
+        });
 
     this.subscription2 = this.geoService.volunteers.subscribe(ele => {
       this.volunteers = ele;
@@ -68,7 +64,7 @@ export class ModalrequestPage implements OnInit {
     requestForm.value.lat = this.lat;
     requestForm.value.lng = this.lng;
     requestForm.value.status = Constants.STATUS_NOT_DONE;
-    if(requestForm.value.negotiable === "") requestForm.value.negotiable = true;
+    if (requestForm.value.negotiable === '') { requestForm.value.negotiable = true; }
     this.loadingController.create({
       message: 'Saving Request'
     }).then(overlay => {
@@ -81,15 +77,15 @@ export class ModalrequestPage implements OnInit {
     });
     this.requestService.addRequest(requestForm.value).then(savedRequest => {
       console.log(savedRequest);
-      let uniqId = this.helperService.getUniqueIdForRequestCopyCollection(savedRequest.id);
+      const uniqId = this.helperService.getUniqueIdForRequestCopyCollection(savedRequest.id);
       this.requestRedundantService.addRequest(requestForm.value, uniqId);
       this.loading.dismiss();
       this.findVolunteers();
     });
-   
+
   }
 
-  findVolunteers(){
+  findVolunteers() {
     // this.volunteerService.findVolunteers(reqObj).subscribe( response => {
     //   console.log(response);
     //   if(response.length == 0){
@@ -100,25 +96,25 @@ export class ModalrequestPage implements OnInit {
     // })
   }
 
-  async createAlert(response: any){
-    let length = response.length;
+  async createAlert(response: any) {
+    const length = response.length;
     const alert = await this.alertController.create({
       header: 'Success',
-      message: length == 0 ? Constants.SUCCESS_LENGTH_0 : `${Constants.SUCCESS} ${length} volunteers!`,
+      message: length === 0 ? Constants.SUCCESS_LENGTH_0 : `${Constants.SUCCESS} ${length} volunteers!`,
       animated: true,
       buttons: [{
         text: 'Okay',
         cssClass: 'secondary',
         handler: () => {
-          if(length > 0){
+          if (length > 0) {
             this.modalController.dismiss(response);
-          }else{
+          } else {
             this.modalController.dismiss();
           }
-          
+
         }
       }]
-    })
+    });
     await alert.present();
   }
 
