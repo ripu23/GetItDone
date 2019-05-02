@@ -36,12 +36,11 @@ export class ModalsignupPage implements OnInit {
     this.lng = this.navParams.get('lng');
     this.signInSuccessData = this.navParams.get('signInSuccessData');
     this.preHomeId = this.navParams.get('preHomeId');
-
   }
 
   completeProfile(form: NgForm) {
     console.log(form.value);
-    if(this.signInSuccessData.authResult.user && this.signInSuccessData.authResult.user.email){
+    if (this.signInSuccessData.authResult.user && this.signInSuccessData.authResult.user.email) {
       form.value.email = this.signInSuccessData.authResult.user.email;
     }
     form.value.userId = this.signInSuccessData.authResult.user.uid;
@@ -53,26 +52,22 @@ export class ModalsignupPage implements OnInit {
       this.loading.present();
     });
 
-    if(this.preHomeId === 'user'){
+    if (this.preHomeId === 'user') {
       this.userService.createUser(form.value).then(user => {
         console.log(user);
         this.loading.dismiss();
         this.modalController.dismiss('done');
       });
 
-    }else {
+    } else {
       this.volunteerService.createVoluteer(form.value).then(volunteer => {
         console.log(volunteer);
-        this.geoService.addVolunteer(this.signInSuccessData.authResult.user.uid, [this.lat, this.lng]).then(data =>{
+        this.geoService.addVolunteer(this.signInSuccessData.authResult.user.uid, [this.lat, this.lng]).then(data => {
           console.log(data);
         });
         this.loading.dismiss();
         this.modalController.dismiss('done');
-        
-        
       });
     }
-    
   }
-
 }

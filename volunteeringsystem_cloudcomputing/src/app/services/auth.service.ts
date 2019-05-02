@@ -39,7 +39,10 @@ export class AuthService {
 
 
   getUserDetails() {
-    return JSON.parse(localStorage.getItem('userDetails'));
+    const user = JSON.parse(localStorage.getItem('userDetails'));
+    user.id = this.getUserId();
+    user.type = this.getUserType();
+    return user;
   }
 
   setLatLng(lat: any, lng: any) {

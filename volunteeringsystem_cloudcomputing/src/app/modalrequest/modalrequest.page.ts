@@ -5,11 +5,12 @@ import { Request } from '../Models/request';
 import { VolunteerService } from '../services/volunteer.service';
 import { Constants } from '../Models/constants';
 import { RequestService } from '../services/request.service';
+import { Request2Service } from '../services/request2.service';
 import { NgForm } from '@angular/forms';
 import { HelperService } from '../services/helper.service';
 import { RequestredundantService } from '../services/requestredundant.service';
 import { GeoService } from '../services/geo.service';
-import {AuthService} from "../services/auth.service";
+import {AuthService} from '../services/auth.service';
 
 
 @Component({
@@ -33,6 +34,7 @@ export class ModalrequestPage implements OnInit {
               private geolocation: Geolocation,
               private alertController: AlertController,
               private requestService: RequestService,
+              private request2Service: Request2Service,
               private helperService: HelperService,
               private requestRedundantService: RequestredundantService,
               private loadingController: LoadingController,
@@ -46,7 +48,7 @@ export class ModalrequestPage implements OnInit {
     this.geoService.getVolunteersLocation(100, [this.lat, this.lng]);
     this.subscription1 = this.geoService.volunteersLocation.subscribe(
         volunteers => {
-          this.volunteersLocation = volunteers
+          this.volunteersLocation = volunteers;
           console.log('modalRequestPage', this.volunteersLocation);
         });
 
@@ -78,26 +80,12 @@ export class ModalrequestPage implements OnInit {
     this.volunteers.forEach(element => {
       requestForm.value.volunteers.push(element.id);
     });
-    this.requestService.addRequest(requestForm.value).then(savedRequest => {
-      const uniqId = this.helperService.getUniqueIdForRequestCopyCollection(savedRequest.id);
-      console.log('savedRequest', uniqId);
-      this.requestRedundantService.addRequest(requestForm.value, uniqId);
+    this.request2Service.addRequest(requestForm.value).then(savedRequest => {
+      console.log('savedRequest', savedRequest.id);
       this.loading.dismiss();
       this.closeModal();
-      // this.findVolunteers();
     });
 
-  }
-
-  findVolunteers() {
-    // this.volunteerService.findVolunteers(reqObj).subscribe( response => {
-    //   console.log(response);
-    //   if(response.length == 0){
-    //     this.createAlert(response);
-    //   }else{
-
-    //   }
-    // })
   }
 
   async createAlert(response: any) {
