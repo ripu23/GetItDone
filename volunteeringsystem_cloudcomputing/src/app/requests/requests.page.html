@@ -10,59 +10,62 @@
 <ion-content>
     <div *ngIf="requests?.length > 0; then length else nolength"></div>
     <ng-template #length>
-        <ion-card *ngFor="let request of requests">
-            <ion-card-header>
-                <ion-card-title> {{ request.description }}</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-                <ion-item lines="none">
-                    <ion-label class="request-font">From Address</ion-label>
-                    <ion-text>
-                        <p>{{ request.fromAddress }}</p>
-                    </ion-text>
-                </ion-item>
-                <ion-item lines="none">
-                    <ion-label class="request-font">To Address</ion-label>
-                    <ion-text>
-                        <p>{{ request.toAddress }}</p>
-                    </ion-text>
-                </ion-item>
-                <ion-item lines="none">
-                    <ion-label class="request-font">Price</ion-label>
-                    <ion-text>
-                        <p>${{ request.rate }} <span *ngIf="request.negotiable">(Negotiable)</span> </p>
-                    </ion-text>
-                </ion-item>
-                <ion-item lines="none">
-                    <ion-label class="request-font">Phone</ion-label>
-                    <ion-text>
-                        <p>{{ request.phone }}</p>
-                    </ion-text>
-                </ion-item>
-                <ion-item lines="none">
-                    <ion-label class="request-font">Created at</ion-label>
-                    <ion-text>
-                        <p>{{ request.createdAt | date:'yyyy-MM-dd HH:mm:ss Z' }}</p>
-                    </ion-text>
-                </ion-item>
-                <ion-item lines="none" *ngIf="status != 'OPEN' && user.type == 'user'">
-                    <ion-label class="request-font">Volunteer Name</ion-label>
-                    <ion-text>
-                        <p>{{ request.volunteer.firstName }}</p>
-                    </ion-text>
-                </ion-item>
-                <ion-item lines="none" *ngIf="status != 'OPEN' && user.type == 'user'">
-                    <ion-label class="request-font">Volunteer Contact</ion-label>
-                    <ion-text>
-                        <p>{{ request.volunteer.phone }}</p>
-                    </ion-text>
-                </ion-item>
-                <ion-item lines="none" *ngIf="status == 'OPEN' && user.type == 'volunteer'">
-                    <ion-button (click)="acceptRequest(request)">Accept Task</ion-button>
-                    <ion-button (click)="ignoreRequest(request)">Ignore Task</ion-button>
-                </ion-item>
-            </ion-card-content>
-        </ion-card>
+            <ion-card *ngFor="let request of requests">
+                    <ion-card-header>
+                        <ion-card-title> {{ request.description }}</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <ion-item lines="none">
+                            <ion-label class="request-font">From Address</ion-label>
+                            <ion-text>
+                                <p>{{ request.fromAddress }}</p>
+                            </ion-text>
+                        </ion-item>
+                        <ion-item lines="none">
+                            <ion-label class="request-font">To Address</ion-label>
+                            <ion-text>
+                                <p>{{ request.toAddress }}</p>
+                            </ion-text>
+                        </ion-item>
+                        <ion-item lines="none">
+                            <ion-label class="request-font">Price</ion-label>
+                            <ion-text>
+                                <p>${{ request.rate }}  <span *ngIf="request.negotiable">(Negotiable)</span> </p>
+                            </ion-text>
+                        </ion-item>
+                        <ion-item lines="none">
+                            <ion-label class="request-font">Phone</ion-label>
+                            <ion-text>
+                                <p>{{ request.phone }}</p>
+                            </ion-text>
+                        </ion-item>
+                        <ion-item lines="none">
+                            <ion-label class="request-font">Created at</ion-label>
+                            <ion-text>
+                                <p>{{ request.createdAt | date:'yyyy-MM-dd HH:mm:ss Z' }}</p>
+                            </ion-text>
+                        </ion-item>
+                        <ion-item lines="none" *ngIf="status != 'OPEN' && user.type == 'user'">
+                            <ion-label class="request-font">Volunteer Name</ion-label>
+                            <ion-text>
+                                <p>{{ request.volunteer.firstName }}</p>
+                            </ion-text>
+                        </ion-item>
+                        <ion-item lines="none" *ngIf="status != 'OPEN' && user.type == 'user'">
+                            <ion-label class="request-font">Volunteer Contact</ion-label>
+                            <ion-text>
+                                <p>{{ request.volunteer.phone }}</p>
+                            </ion-text>
+                        </ion-item>
+                        <ion-item lines="none" *ngIf="status == 'OPEN' && user.type == 'volunteer'">
+                            <ion-button (click)="acceptRequest(request)">Accept Task</ion-button>
+                            <ion-button (click)="ignoreRequest(request)">Ignore Task</ion-button>
+                        </ion-item>
+                        <ion-item lines="none" *ngIf="status == 'IN-PROGRESS'">
+                            <ion-button (click)="completeRequest(request)">Mark Task Complete</ion-button>
+                        </ion-item>
+                    </ion-card-content>
+                </ion-card>
     </ng-template>
     <ng-template #nolength>
         <ion-grid>
@@ -78,4 +81,3 @@
             </ion-row>
         </ion-grid>
     </ng-template>
-</ion-content>
