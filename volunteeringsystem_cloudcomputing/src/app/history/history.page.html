@@ -1,90 +1,16 @@
-<ion-header>
-  <ion-toolbar color="dark">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>Request History</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <div *ngIf="requestHistory?.length > 0; then length else nolength">
-
-  </div>
-  <!-- <ng-template #length>
-    <ion-card *ngFor="let request of requestHistory">
-      <ng-container *ngFor="let history of request | keyvalue">
-        <ion-item *ngIf="history.key != 'lat' && history.key != 'lng'" class="activated">
-          <ion-label>{{ history.key | titlecase}}</ion-label>
-          <ion-text>
-            <p>{{ history.value }}</p>
-          </ion-text>
-        </ion-item>
-      </ng-container>
-    </ion-card>
-  </ng-template> -->
-  <ng-template #length>
-    <ion-card *ngFor="let request of requestHistory">
-      <ion-card-header>
-        <ion-card-title> {{ request.description }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-          <ion-item>
-              <ion-label class="request-font">From Address</ion-label>
-              <ion-text>
-                <p>{{ request.fromAddress }}</p>
-              </ion-text>
-          </ion-item>
-          <ion-item>
-              <ion-label class="request-font">To Address</ion-label>
-              <ion-text>
-                <p>{{ request.toAddress }}</p>
-              </ion-text>
-          </ion-item>
-          <ion-item>
-              <ion-label class="request-font">Rate</ion-label>
-              <ion-text>
-                <p>${{ request.rate }}  <span *ngIf="request.negotiable">(Negotiable)</span> </p> 
-              </ion-text>
-          </ion-item>
-          <ion-item>
-              <ion-label class="request-font">Phone</ion-label>
-              <ion-text>
-                <p>{{ request.phone }}</p> 
-              </ion-text>
-          </ion-item>
-          <ion-item>
-              <ion-label class="request-font">Created on</ion-label>
-              <ion-text>
-                <p>{{ request.createdAt }}</p>
-              </ion-text>
-          </ion-item>
-      </ion-card-content>
-
-      
-      <!-- <ng-container *ngFor="let history of request | keyvalue">
-        <ion-item *ngIf="history.key != 'lat' && history.key != 'lng'" class="activated">
-          <ion-label>{{ history.key | titlecase}}</ion-label>
-          <ion-text>
-            <p>{{ history.value }}</p>
-          </ion-text>
-        </ion-item>
-      </ng-container> -->
-    </ion-card>
-  </ng-template>
-
-  <ng-template #nolength>
-    <ion-grid>
-      <ion-row>
-        <ion-col col-6 col-md-4 col-xl-3>
-          <div class="ion-text-center">
-            <img src="assets/icon/empty.png">
-            <ion-note class="custom-note" color="dark">No requests yet!!</ion-note>
-          </div>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ng-template>
-
-
-</ion-content>
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="openrequests">
+        <ion-icon name="folder-open"></ion-icon>
+      <ion-label>Open</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="inprogress">
+        <ion-icon name="code"></ion-icon>
+      <ion-label>In progress</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="closedrequests">
+        <ion-icon name="close"></ion-icon>
+      <ion-label>Closed</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

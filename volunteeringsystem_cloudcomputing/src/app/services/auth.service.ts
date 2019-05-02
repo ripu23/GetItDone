@@ -42,11 +42,26 @@ export class AuthService {
     return JSON.parse(localStorage.getItem('userDetails'));
   }
   
+  setLatLng(lat: any, lng: any) {
+    localStorage.setItem('lat', lat);
+    localStorage.setItem('lng', lng);
+  }
+
+  getLat() {
+    return parseFloat(localStorage.getItem('lat'));
+  }
+
+  getLng() {
+    return parseFloat(localStorage.getItem('lng'));
+  }
+  
   removeUser() {
     localStorage.removeItem('userDetails');
     localStorage.removeItem('userType');
     localStorage.removeItem('userId');
     localStorage.removeItem('loggedIn');
+    localStorage.removeItem('lat');
+    localStorage.removeItem('lng');
     this.loggedInStatus = false;
   }
 

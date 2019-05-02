@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestoreCollection, AngularFirestore } from 'angularfire2/firestore';
 import { Request } from '../Models/request';
-import { map } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
-import { RequestService } from '../services/request.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-history',
@@ -19,18 +18,14 @@ export class HistoryPage implements OnInit {
 
   constructor(private db: AngularFirestore,
               private auth: AuthService,
-              private requestService: RequestService) {
-
-    this.userId = this.auth.getUserId();
-    this.subscription1 = this.requestService.requests.subscribe(
-      histories => {
-      this.requestHistory = histories[0];
-      console.log('History', this.requestHistory);
-    });
+              private router: Router) {
+    
+    this.router.navigate(['/profile/history/openrequests'])  
    }
   
 
-  ngOnInit() {  
+  ngOnInit() {
+
   }
 
   ionViewCanEnter(): boolean {

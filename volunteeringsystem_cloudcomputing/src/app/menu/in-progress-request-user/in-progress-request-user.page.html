@@ -1,0 +1,68 @@
+<ion-header>
+    <ion-toolbar color="dark">
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Requests in progress</ion-title>
+      </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div *ngIf="inProgressRequests?.length > 0; then length else nolength">
+  
+    </div>
+    <ng-template #length>
+      <ion-card *ngFor="let request of inProgressRequests">
+        <ion-card-header>
+          <ion-card-title> {{ request.description }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-item>
+                <ion-label class="request-font">From Address</ion-label>
+                <ion-text>
+                  <p>{{ request.fromAddress }}</p>
+                </ion-text>
+            </ion-item>
+            <ion-item>
+                <ion-label class="request-font">To Address</ion-label>
+                <ion-text>
+                  <p>{{ request.toAddress }}</p>
+                </ion-text>
+            </ion-item>
+            <ion-item>
+                <ion-label class="request-font">Rate</ion-label>
+                <ion-text>
+                  <p>${{ request.rate }}  <span *ngIf="request.negotiable">(Negotiable)</span> </p> 
+                </ion-text>
+            </ion-item>
+            <ion-item>
+                <ion-label class="request-font">Phone</ion-label>
+                <ion-text>
+                  <p>{{ request.phone }}</p> 
+                </ion-text>
+            </ion-item>
+            <ion-item>
+                <ion-label class="request-font">Created on</ion-label>
+                <ion-text>
+                  <p>{{ request.createdAt }}</p>
+                </ion-text>
+            </ion-item>
+        </ion-card-content>
+      </ion-card>
+    </ng-template>
+  
+    <ng-template #nolength>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6 col-md-4 col-xl-3>
+            <div class="ion-text-center">
+              <img src="assets/icon/empty.png">
+              <ion-note class="custom-note" color="dark">No requests in progress!</ion-note>
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ng-template>
+  
+  
+  </ion-content>

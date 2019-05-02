@@ -4,8 +4,22 @@ export const userPages = [
         url: '/profile/account'
     },
     {
-        title: 'Requests',
-        url: '/profile/history'
+        title: 'History',
+        url: '/profile/history',
+        children: [
+            {
+                title: 'Open Request',
+                url: '/profile/openrequest-user'
+            },
+            {
+                title: 'Requests in progress',
+                url: '/profile/account'
+            },
+            {
+                title: 'Completed Requests',
+                url: '/profile/in-progress-request-user'
+            }
+        ]
     }
 ];
 

@@ -22,7 +22,17 @@ const routes: Routes = [
       },
       { path: 'requests',
         loadChildren: '../requests/requests.module#RequestsPageModule'
+      },
+      { path: 'openrequest-user',
+        loadChildren: '../menu/openrequest-user/openrequest-user.module#OpenrequestUserPageModule'
+      },
+      { path: 'closed-request-user', 
+        loadChildren: '../menu/closed-request-user/closed-request-user.module#ClosedRequestUserPageModule'
+      },
+      { path: 'in-progress-request-user',
+        loadChildren: '../menu/in-progress-request-user/in-progress-request-user.module#InProgressRequestUserPageModule'
       }
+
     ]
   }
 ];

@@ -15,19 +15,14 @@ export class ProfilePage implements OnInit {
   public pageInfo = [];
   public selectedPath = '';
   public preHomeId = '';
+  public open: boolean = false;
 
   constructor(private router: Router,
               private auth: AuthService,
               public afAuth: AngularFireAuth,
               private navCtrl: NavController,
               private alertController: AlertController) {
-    this.router.events.subscribe( (event: RouterEvent) => {
-      this.selectedPath = event.url;
-    })
-   }
-
-  
-  ngOnInit() {
+    
     console.log(this.selectedPath);
     this.preHomeId = this.auth.getUserType();  
     if(this.auth.getUserType() === 'user'){
@@ -35,12 +30,19 @@ export class ProfilePage implements OnInit {
     }else{
       this.pageInfo = volunteerPages;
     }
-    if(this.selectedPath){
-      let routes = this.selectedPath.split('/');
-      if(routes.length <= 2){
-        this.router.navigate(['/profile/account']);
-      }
-    }
+    this.router.navigate(['/profile/account']);
+    
+   }
+
+  
+  ngOnInit() {
+    this.router.events.subscribe( (event: RouterEvent) => {
+      this.selectedPath = event.url;
+    })
+  }
+
+  goBack(): void {
+    this.router.navigate(['/map'])
   }
 
   async logout() {

@@ -10,7 +10,21 @@ import { HistoryPage } from './history.page';
 const routes: Routes = [
   {
     path: '',
-    component: HistoryPage
+    component: HistoryPage,
+    children: [
+      {
+        path: 'openrequests',
+        loadChildren: '../menu/openrequest-user/openrequest-user.module#OpenrequestUserPageModule'
+      },
+      {
+        path: 'inprogress',
+        loadChildren: '../menu/in-progress-request-user/in-progress-request-user.module#InProgressRequestUserPageModule'
+      },
+      {
+        path: 'closedrequests',
+        loadChildren: '../menu/closed-request-user/closed-request-user.module#ClosedRequestUserPageModule'
+      }
+    ]
   }
 ];
 

@@ -13,6 +13,7 @@ import { AuthService } from '../services/auth.service.js';
 import { pages } from '../util/sidepages.js';
 import { MenuController } from '@ionic/angular';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 
 declare var google;
@@ -56,7 +57,8 @@ export class MapPage implements OnInit, OnDestroy {
     private auth: AuthService,
     private menu: MenuController,
     private alertController: AlertController,
-    public afAuth: AngularFireAuth) {
+    public afAuth: AngularFireAuth,
+    private router: Router,) {
 
     this.subscription1 = this.geoService.volunteersLocation.subscribe(
       volunteers => {
@@ -97,10 +99,10 @@ export class MapPage implements OnInit, OnDestroy {
   }
 
   async navigateTo(event: string){
-    if(event === 'Profile'){
-      this.navCtrl.navigateRoot(['/profile'])
+    if(event === 'Account'){
+      this.router.navigate(['/profile'])
     }else if(event === 'History'){
-      this.navCtrl.navigateRoot(['/profile/history'])
+      this.router.navigate(['/profile/history/openrequests'])
     }else{
       const alert = await this.alertController.create({
         header: 'Error',
@@ -133,10 +135,12 @@ export class MapPage implements OnInit, OnDestroy {
   }
 
   getLocation() {
+    
     this.geolocation.getCurrentPosition().then(pos => {
       this.loading.dismiss();
       this.lat = pos.coords.latitude;
       this.lng = pos.coords.longitude;
+      this.auth.setLatLng(this.lat, this.lng);
       // Uncomment this to load map.
       this.initMap();
       this.geoService.getVolunteersLocation(100, [this.lat, this.lng]);
