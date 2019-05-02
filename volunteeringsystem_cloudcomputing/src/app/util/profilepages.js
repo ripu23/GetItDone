@@ -1,3 +1,5 @@
+import { Constants } from '../Models/constants';
+
 export const userPages = [
     {
         title: 'Account',
@@ -36,4 +38,23 @@ export const volunteerPages = [
         title: 'Requests',
         url: '/profile/requests'
     }
+];
+
+export const pages = [
+    {
+        title: 'Account',
+        url: '/profile/account'
+    },
+    {
+        title: 'Pending Requests',
+        url: '/profile/requests/' + Constants.STATUS_NOT_DONE
+    },
+    {
+        title: 'In-Progress Requests',
+        url: '/profile/requests/' + Constants.STATUS_IN_PROGRESS
+    },
+    {
+        title: 'Completed Requests',
+        url: '/profile/requests/' + Constants.STATUS_DONE
+    },
 ];

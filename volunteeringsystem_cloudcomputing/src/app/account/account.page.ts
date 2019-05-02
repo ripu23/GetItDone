@@ -16,14 +16,14 @@ import { Request2Service } from '../services/request2.service';
 })
 export class AccountPage implements OnInit {
 
-  private user: any;
-
-  private openRequestsOb: Observable<Request[]>;
-  private openRequests: Request[];
-  private inProgressRequestsOb: Observable<Request[]>;
-  private inProgressRequests: Request[];
-  private closedRequestsOb: Observable<Request[]>;
-  private closedRequests: Request[];
+  // private user: any;
+  //
+  // private openRequestsOb: Observable<Request[]>;
+  // private openRequests: Request[];
+  // private inProgressRequestsOb: Observable<Request[]>;
+  // private inProgressRequests: Request[];
+  // private closedRequestsOb: Observable<Request[]>;
+  // private closedRequests: Request[];
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -31,22 +31,22 @@ export class AccountPage implements OnInit {
     private requestService: Request2Service) { }
 
   ngOnInit() {
-    this.user = this.auth.getUserDetails();
-    this.openRequestsOb = this.requestService.getOpenRequests(this.user.type, this.user.id);
-    this.openRequestsOb.subscribe((reqs: Request[]) => {
-      this.openRequests = reqs;
-      console.log(this.user.type, this.user.id, 'openRequests', reqs);
-    });
-    this.inProgressRequestsOb = this.requestService.getInprogressRequests(this.user.type, this.user.id);
-    this.inProgressRequestsOb.subscribe((reqs: Request[]) => {
-      this.inProgressRequests = reqs;
-      console.log(this.user.type, this.user.id, 'inProgressRequests', reqs);
-    });
-    this.closedRequestsOb = this.requestService.getClosedRequests(this.user.type, this.user.id);
-    this.closedRequestsOb.subscribe((reqs: Request[]) => {
-      this.closedRequests = reqs;
-      console.log(this.user.type, this.user.id, 'closedRequests', reqs);
-    });
+    // this.user = this.auth.getUserDetails();
+    // this.openRequestsOb = this.requestService.getOpenRequests(this.user.type, this.user.id);
+    // this.openRequestsOb.subscribe((reqs: Request[]) => {
+    //   this.openRequests = reqs;
+    //   console.log(this.user.type, this.user.id, 'openRequests', reqs);
+    // });
+    // this.inProgressRequestsOb = this.requestService.getInprogressRequests(this.user.type, this.user.id);
+    // this.inProgressRequestsOb.subscribe((reqs: Request[]) => {
+    //   this.inProgressRequests = reqs;
+    //   console.log(this.user.type, this.user.id, 'inProgressRequests', reqs);
+    // });
+    // this.closedRequestsOb = this.requestService.getClosedRequests(this.user.type, this.user.id);
+    // this.closedRequestsOb.subscribe((reqs: Request[]) => {
+    //   this.closedRequests = reqs;
+    //   console.log(this.user.type, this.user.id, 'closedRequests', reqs);
+    // });
   }
 
   ionViewCanEnter() {

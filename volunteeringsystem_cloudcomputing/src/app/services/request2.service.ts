@@ -28,7 +28,7 @@ export class Request2Service {
     return this.requestCollection.doc(id).update(request);
   }
 
-  generateQuery(userType, userId, status) {
+  getRequests(userType, userId, status) {
     return this.db.collection<Request>('requests2', ref => {
       let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
       query = query.where('status', '==', status);
@@ -48,14 +48,14 @@ export class Request2Service {
   }
 
   getOpenRequests(userType, userId) {
-    return this.generateQuery(userType, userId, Constants.STATUS_NOT_DONE);
+    return this.getRequests(userType, userId, Constants.STATUS_NOT_DONE);
   }
 
   getInprogressRequests(userType, userId) {
-    return this.generateQuery(userType, userId, Constants.STATUS_IN_PROGRESS);
+    return this.getRequests(userType, userId, Constants.STATUS_IN_PROGRESS);
   }
 
   getClosedRequests(userType, userId) {
-    return this.generateQuery(userType, userId, Constants.STATUS_DONE);
+    return this.getRequests(userType, userId, Constants.STATUS_DONE);
   }
 }

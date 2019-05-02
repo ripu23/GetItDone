@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { userPages, volunteerPages } from '../util/profilepages.js';
+import { userPages, volunteerPages, pages } from '../util/profilepages.js';
 import { Router, RouterEvent } from '@angular/router';
 import { AuthService } from '../services/auth.service.js';
 import { AngularFireAuth } from '@angular/fire/auth';
@@ -12,7 +12,7 @@ import { NavController, AlertController } from '@ionic/angular';
 })
 export class ProfilePage implements OnInit {
 
-  public pageInfo = [];
+  public menuPages = [];
   public selectedPath = '';
   public preHomeId = '';
   public open = false;
@@ -23,17 +23,8 @@ export class ProfilePage implements OnInit {
               private navCtrl: NavController,
               private alertController: AlertController) {
 
-    console.log(this.selectedPath);
-    this.preHomeId = this.auth.getUserType();
-    if (this.auth.getUserType() === 'user') {
-      this.pageInfo = userPages;
-    } else {
-      this.pageInfo = volunteerPages;
-    }
-    // console.log('pageInfo', this.auth.getUserType(), this.pageInfo);
-    this.router.navigate(['/profile/account']);
-
-   }
+    this.menuPages = pages;
+  }
 
 
   ngOnInit() {

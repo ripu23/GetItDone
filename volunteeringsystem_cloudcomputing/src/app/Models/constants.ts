@@ -4,5 +4,5 @@ export class Constants {
     public static readonly MARKER_IMAGE: string = 'assets/icon/avatar.png';
     public static readonly STATUS_NOT_DONE: string = 'OPEN';
     public static readonly STATUS_DONE: string = 'DONE';
-    public static readonly STATUS_IN_PROGRESS: string = 'IN PROGRESS';
+    public static readonly STATUS_IN_PROGRESS: string = 'IN-PROGRESS';
 }
