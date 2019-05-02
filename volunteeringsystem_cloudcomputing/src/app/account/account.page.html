@@ -10,7 +10,12 @@
 <ion-content padding>
 	<div>
 		<ion-avatar class="center">
-			<img src="assets/icon/defaultAvatar.png">
+			<label class="hoverable" for="fileInput">
+  				<img [src]="url ? url : 'assets/icon/defaultAvatar.png'"> 
+  				<div class="hover-text">Choose file</div>
+  				<div class="background"></div>
+			</label>
+			<input id="profilePic" type='file' (change)="uploadProfilePic($event)">
 		</ion-avatar>
 	</div>
 	<div class="user-details">

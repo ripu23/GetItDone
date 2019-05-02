@@ -14,8 +14,7 @@ export class AccountPage implements OnInit {
 
   private user: any;
   
-  constructor(private afAuth: AngularFireAuth,
-              private auth: AuthService) { }
+  constructor(private afAuth: AngularFireAuth, private auth: AuthService) { }
 
   ngOnInit() {
     this.user = this.auth.getUserDetails()
@@ -25,5 +24,18 @@ export class AccountPage implements OnInit {
     return this.auth.isLoggedIn();
   }
 
+  uploadProfilePic(event) {
+    if (event.target.files && event.target.files[0]) {
+
+      // Read the uploaded file
+      var filereader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+
+      // Display it in the profile pic box
+      reader.onload = (event) => {
+        this.url = event.target.result;
+      }
+    }
+  }
 }
 
