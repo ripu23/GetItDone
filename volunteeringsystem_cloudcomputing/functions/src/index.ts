@@ -14,6 +14,13 @@ exports.sendNewRequestNotification = functions.firestore
     const db = admin.firestore();
     const tokens: any[] = [];
     const volunteerDocRefs: any[] = [];
+    const payload = {
+      notification: {
+        title: 'New GetItDone request!',
+        body: 'New GetItDone request!',
+        // icon: follower.photoURL
+      }
+    };
     if (request !== undefined) {
       request.volunteers.forEach((vId: any) => {
         volunteerDocRefs.push(db.doc(`volunteers/${vId}`))
@@ -28,15 +35,9 @@ exports.sendNewRequestNotification = functions.firestore
           }
         });
       });
+      payload.notification.body = request.description;
     }
 
-    const payload = {
-      notification: {
-        title: 'New GetItDone request!',
-        body: request.description,
-        // icon: follower.photoURL
-      }
-    };
     console.log('tokens', tokens);
 
     const response = await admin.messaging().sendToDevice(tokens, payload);
