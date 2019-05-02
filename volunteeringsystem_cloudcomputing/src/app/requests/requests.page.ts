@@ -5,6 +5,7 @@ import {Observable} from 'rxjs';
 import {Request} from '../Models/request';
 import {Request2Service} from '../services/request2.service';
 import {AuthService} from '../services/auth.service';
+import {VolunteerService} from '../services/volunteer.service';
 
 @Component({
   selector: 'app-requests',
@@ -18,9 +19,9 @@ export class RequestsPage implements OnInit {
   private user: any;
 
   private requestsOb: Observable<Request[]>;
-  private requests: Request[];
+  private requests: any[];
 
-  constructor(private auth: AuthService,
+  constructor(private auth: AuthService, private volunteerService: VolunteerService,
     private route: ActivatedRoute, private requestService: Request2Service) {
     this.statusMap[Constants.STATUS_NOT_DONE] = 'Pending Requests';
     this.statusMap[Constants.STATUS_IN_PROGRESS] = 'In-Progress Requests';
@@ -34,6 +35,12 @@ export class RequestsPage implements OnInit {
     this.requestsOb = this.requestService.getRequests(this.user.type, this.user.id, this.status);
     this.requestsOb.subscribe((reqs: Request[]) => {
       this.requests = reqs;
+      if (this.status !== Constants.STATUS_NOT_DONE && this.user.type === 'user') {
+        // for closed and in-progress requests, get volunteer details as well
+        this.requests.forEach(async req => {
+          req.volunteer = await this.volunteerService.getVolunteer(req.assignedVolunteer);
+        });
+      }
       console.log(this.user.type, this.user.id, this.status, 'requests', reqs);
     });
   }

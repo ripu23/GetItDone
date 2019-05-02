@@ -43,6 +43,18 @@
                     <p>{{ request.createdAt | date:'yyyy-MM-dd HH:mm:ss Z' }}</p>
                 </ion-text>
             </ion-item>
+            <ion-item lines="none" *ngIf="status != 'OPEN' && user.type == 'user'">
+                <ion-label class="request-font">Volunteer Name</ion-label>
+                <ion-text>
+                    <p>{{ request.volunteer.firstName }}</p>
+                </ion-text>
+            </ion-item>
+            <ion-item lines="none" *ngIf="status != 'OPEN' && user.type == 'user'">
+                <ion-label class="request-font">Volunteer Contact</ion-label>
+                <ion-text>
+                    <p>{{ request.volunteer.phone }}</p>
+                </ion-text>
+            </ion-item>
         </ion-card-content>
     </ion-card>
 </ion-content>
