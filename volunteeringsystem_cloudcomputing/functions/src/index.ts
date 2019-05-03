@@ -37,9 +37,13 @@ exports.sendNewRequestNotification = functions.firestore
             console.log(volunteerDocs[0].id, '=>', volunteerDocs[0].data());
             volunteerDocs.forEach((vD: any) => {
               const volunteer = vD.data();
-              console.log('new req: volunteer', volunteer.email);
-              if (volunteer.fcmToken !== undefined) {
-                tokens.push(volunteer.fcmToken);
+              if (volunteer) {
+                console.log('new req: volunteer', volunteer.email);
+                if (volunteer.fcmToken !== undefined) {
+                  tokens.push(volunteer.fcmToken);
+                }
+              } else {
+                console.log('undefined volunteer');
               }
             });
           });
@@ -74,6 +78,7 @@ exports.sendNewRequestNotification = functions.firestore
     }
 
     console.log('tokens', tokens);
+    console.log('payload', payload);
 
     const response = await admin.messaging().sendToDevice(tokens, payload);
     console.log('successCount', response.successCount);
