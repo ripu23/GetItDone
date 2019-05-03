@@ -49,12 +49,12 @@ export class ModalrequestPage implements OnInit {
     this.subscription1 = this.geoService.volunteersLocation.subscribe(
         volunteers => {
           this.volunteersLocation = volunteers;
-          console.log('modalRequestPage', this.volunteersLocation);
+          // console.log('modalRequestPage', this.volunteersLocation);
         });
 
     this.subscription2 = this.geoService.volunteers.subscribe(ele => {
       this.volunteers = ele;
-      console.log('modalRequestPage', this.volunteers);
+      // console.log('modalRequestPage', this.volunteers);
     });
   }
 
